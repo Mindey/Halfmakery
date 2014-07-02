@@ -1,0 +1,7 @@
+README
+setup.py
+Halfmakery.egg-info/PKG-INFO
+Halfmakery.egg-info/SOURCES.txt
+Halfmakery.egg-info/dependency_links.txt
+Halfmakery.egg-info/requires.txt
+Halfmakery.egg-info/top_level.txt
