@@ -153,11 +153,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
+    'registration_defaults',
     'django.contrib.admin',
     'polls',
+    'registration',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_REDIRECT_URL = '/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -181,3 +186,7 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+

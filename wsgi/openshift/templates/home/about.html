@@ -99,4 +99,24 @@ About Halfmakery.
             <li>[=] Make the template look nice for mobile phones and desktops.
             <li>[=] Import this very own project.
             <li>[=] Invite some CryptoCurrency friends and Halfbakers to test it out.
+            <li>[=] Improve on integration with GitHub, VIM, provide API...
 </ul>
+
+<b><u>Tasks:</u><b>
+<ol>
+<li>Install 'django-registration',
+<li>Install 'django-registration-defaults',
+</ol>
+
+<b><u>Histories:</u></b>
+
+<p>1. Just installed the django-registration. Now I see no templates and views and urls. I need at least templates.</p>
+<p>2. Now, just follwed https://github.com/yourcelf/django-registration-defaults and installed the templates. I still need urls and views.</p>
+<p>2. Now, actually just added the app 'registration_defaults' to INSTALLED_APPS, then included url(r'^accounts/', include('registration.backends.default.urls')), into urls.py, and the from registration.views import RegistrationView, ActivationView into views.py, and it worked~ :) the http://127.0.0.1:8000/accounts/register/ showed up.</p>
+<p>2. For the login to work, removed the quotes from the 'auth_login' in the template /home/mi/.virtualenvs/venv/local/lib/python2.7/site-packages/registration_defaults/templates/registration/login.html in line 12, and reviewed to remove in other places, because according to http://stackoverflow.com/questions/10358929/url-gives-me-noreversematch-error-while-reverse-returns-the-url-just-fin @ahmoo, the quotes are only needed in django 1.5, whereas I currently use 1.4 in RHCloud.</p>
+<p>2. For testing, I needed e-mail'ing, so I referred to http://stackoverflow.com/questions/5802189/django-errno-111-connection-refused </p>
+<p>2. To make activation work, changed the url in activation_email.txt template /home/mi/.virtualenvs/venv/local/lib/python2.7/site-packages/registration_defaults/templates/registration_defaults/templates/registration/activation_email.txt into http://{{ siteurl }}/accounts/activate/{{ activation_key }}/</p>
+<p>2. To have a redirect to main page after logging in, added LOGIN_REDIRECT_URL='/' to settings.py</p>
+<p>2. To have logged in user show up, in the views, added from django.template import RequestContext, and in the view functions, added ,context_instance=RequestContext(request), and in the template, added {% if user.is_authenticated %}logout{% else %}login{% endif %}.</p>
+<p>2. Added automatic redirect [meta http-equiv="refresh" content="10; URL=/"] to the main page after a few seconds from the page /accounts/logout/, by editing /home/mi/.virtualenvs/venv/local/lib/python2.7/site-packages/registration_defaults/templates/registration_defaults/templates/registration/logout.html</p>
+<p>2. Check weather it would all work, after I push it to Git, and Jenkins? Will Jenkins be smart enough to install the django libs, or will I have to logon to server? Will I have to make the corrections I did also in the server?</p>

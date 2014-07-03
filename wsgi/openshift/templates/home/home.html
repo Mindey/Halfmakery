@@ -3,3 +3,12 @@ Halfmakery!
 <b>
 <br />
 let's <a href="/admin">admin </a>...
+
+{% if user.is_authenticated %}
+<p>{{ user.username }} [<a href="/accounts/logout/">logout</a>]</p>
+{% else %}
+<p>
+[<a href="/accounts/register/">register</a>], [<a href="/accounts/login/">login</a>]
+</p>
+{% endif %}
+
