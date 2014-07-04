@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator
 
 # Create your models here.
@@ -35,7 +36,8 @@ class IdeaLink(models.Model):
 class Approach(models.Model):
     idea = models.ForeignKey(Idea)
     name = models.CharField(max_length=255)
-    description = models.CharField(max_length=4096)
+    goal = models.CharField(max_length=255)
+    description = models.TextField(validators=[MaxLengthValidator(4096)])
 
     def __unicode__(self):
          return self.name
@@ -44,7 +46,8 @@ class Milestone(models.Model):
     approach = models.ForeignKey(Approach)
     priority = models.IntegerField(default=0)
     name = models.CharField(max_length=255)
-    description = models.TextField(validators=[MaxLengthValidator(4096)])
+    details = models.TextField(validators=[MaxLengthValidator(4096)], blank=True)
+    achieved = models.BooleanField()
 
     def __unicode__(self):
          return self.name
@@ -53,24 +56,25 @@ class Task(models.Model):
     milestone = models.ForeignKey(Milestone)
     priority = models.IntegerField(default=0)
     name = models.CharField(max_length=255)
-    description = models.TextField(validators=[MaxLengthValidator(4096)])
+    description = models.TextField(validators=[MaxLengthValidator(4096)], blank=True)
+    complete = models.BooleanField()
 
     def __unicode__(self):
          return self.name
 
-class TaskLink(models.Model):
+class TaskPage(models.Model):
     task = models.ForeignKey(Task)
-    title = models.CharField(max_length=255)
-    summary = models.CharField(max_length=255)
-    url = models.CharField(max_length=4096)
+    title = models.CharField(max_length=255, blank=True)
+    contents = models.TextField(validators=[MaxLengthValidator(65536)], blank=True)
 
     def __unicode__(self):
          return self.title
 
-class Page(models.Model):
+class PageLink(models.Model):
     task = models.ForeignKey(Task)
     title = models.CharField(max_length=255)
-    contents = models.TextField(validators=[MaxLengthValidator(65536)])
+    summary = models.CharField(max_length=255)
+    url = models.CharField(max_length=4096)
 
     def __unicode__(self):
          return self.title
@@ -83,7 +87,7 @@ class Currency(models.Model):
          return self.name
 
 class PageComment(models.Model):
-    page = models.ForeignKey(Page)
+    page = models.ForeignKey(TaskPage)
     currency = models.ForeignKey(Currency)
     txid = models.CharField(max_length=255)
     text = models.TextField(validators=[MaxLengthValidator(4096)])
@@ -95,12 +99,17 @@ class MilestoneVote(models.Model):
     milestone = models.ForeignKey(Milestone)
     value = models.IntegerField(default=0)
 
-    def __unicode__(self):
+    def __integer__(self):
          return self.value
 
 class TaskVote(models.Model):
     milestone = models.ForeignKey(Milestone)
     value = models.IntegerField(default=0)
 
-    def __unicode__(self):
+    def __integer__(self):
          return self.value
+
+class Address(models.Model):
+    user = models.ForeignKey(User)
+    currency = models.ForeignKey(Currency)
+    address = models.CharField(max_length=255)

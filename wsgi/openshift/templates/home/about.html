@@ -127,6 +127,11 @@ About Halfmakery.
 <p>Of course, have to also configure e-mail with RHCloud in settings.py.</p>
 
 <p>Something to consider simple, e-mail'less sign-up: https://bitbucket.org/ubernostrum/django-registration/src/tip/docs/simple-backend.rst</p>
+<p>Did python manage.py syncdb, and IMMEDIATELY after it, python manage.py convert_to_south halfmakery. It is very important, that we don't add any extra fields in between syncdb and migrate, as pointed out: App 'halfmakery' converted. Note that South assumed the application's models matched the database
+(i.e. you haven't changed it since last syncdb); if you have, you should delete the halfmakery/migrations
+directory, revert models.py so it matches the database, and try again.</p>
+<p>Then ran ./manage.py migrate myapp 0001 --fake on every machine that has codebase................... Awww.. and expecting that if I add extra fields, finally the South will recognize and migrate them. Yup, I'll have to install South also on the RHC.</p>
+<p>Trying out the schema, will it work for me to define all the stuff that I had worked on so far?</p>
 
 
 <b><u>Entities</u></b>
