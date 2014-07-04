@@ -92,13 +92,14 @@ About Halfmakery.
             <li>[o] Buy Halfmakery.com, try starting a project with RHCloud.
             <li>[o] Learn how to have development environment locally, while pushing changes remotely. 
             <li>[o] Figure out needed entities.
-            <li>[=] Add user registration.
-            <li>[=] Create models for each entity needed.
+            <li>[o] Add user registration.
+            <li>[o] Create models for each entity needed.
             <li>[=] Add views and associated templates to implement the creation, editing and deletion of each entity.
             <li>[=] Make sure to add security where needed, such as registration.
             <li>[=] Make the template look nice for mobile phones and desktops.
             <li>[=] Import this very own project.
             <li>[=] Invite some CryptoCurrency friends and Halfbakers to test it out.
+            <li>[=] Make it work with a different database [https://www.openshift.com/blogs/rapid-python-and-django-app-deployment-to-the-cloud-with-a-paas]
             <li>[=] Improve on integration with GitHub, VIM, provide API...
 </ul>
 
@@ -110,6 +111,8 @@ About Halfmakery.
 
 <b><u>Histories:</u></b>
 
+<p>-1. To start developing, 
+<p>0. To change user password, I used http://www.xubuntix.org/weblog/2013/07/what-do-when-you-forgot-django-admin-password-open .</p>
 <p>1. Just installed the django-registration. Now I see no templates and views and urls. I need at least templates.</p>
 <p>2. Now, just follwed https://github.com/yourcelf/django-registration-defaults and installed the templates. I still need urls and views.</p>
 <p>2. Now, actually just added the app 'registration_defaults' to INSTALLED_APPS, then included url(r'^accounts/', include('registration.backends.default.urls')), into urls.py, and the from registration.views import RegistrationView, ActivationView into views.py, and it worked~ :) the http://127.0.0.1:8000/accounts/register/ showed up.</p>
@@ -120,3 +123,96 @@ About Halfmakery.
 <p>2. To have logged in user show up, in the views, added from django.template import RequestContext, and in the view functions, added ,context_instance=RequestContext(request), and in the template, added {% if user.is_authenticated %}logout{% else %}login{% endif %}.</p>
 <p>2. Added automatic redirect [meta http-equiv="refresh" content="10; URL=/"] to the main page after a few seconds from the page /accounts/logout/, by editing /home/mi/.virtualenvs/venv/local/lib/python2.7/site-packages/registration_defaults/templates/registration_defaults/templates/registration/logout.html</p>
 <p>2. Check weather it would all work, after I push it to Git, and Jenkins? Will Jenkins be smart enough to install the django libs, or will I have to logon to server? Will I have to make the corrections I did also in the server?</p>
+<p>Since it failed due to lack of module 'registration',... I assume we need to go and manually install it. I guess, to install the libs, I'll again have to use similar pattern to this: http://www.xubuntix.org/weblog/2013/07/what-do-when-you-forgot-django-admin-password-open  (i.e., activate virtualenv before installing), pip install django-registration, pip install django-registration-defaults, and then I had to do all the changes I did above, but to the /var/lib/openshift/.........................../python/virtenv/lib/python2.7/site-packages/registration_defaults/templates/registration/ files, like login.html.</p>
+<p>Of course, have to also configure e-mail with RHCloud in settings.py.</p>
+
+<p>Something to consider simple, e-mail'less sign-up: https://bitbucket.org/ubernostrum/django-registration/src/tip/docs/simple-backend.rst</p>
+
+
+<b><u>Entities</u></b>
+
+<pre>
+Category
+ - Id
+ - Name [ShortText 55]
+
+Subcategory
+ - Id
+ - Name [ShortText 255]
+
+Idea
+ - Id
+ - ForeignKey(Category)
+ - ForeignKey(Subcategory)
+ - Name [ShortText 55]
+ - Description [MediumText 4096]
+
+IdeaLink (Reference)
+ - Id
+ - ForeignKey(Idea)
+ - Title [ShortText 255]
+ - Summary [ShortText 255]
+ - URL [MediumText 4096]
+
+Approach
+ - Id
+ - ForeignKey(Idea)
+ - Name [ShortText 255]
+ - Description [MediumText 4096]
+
+Milestone
+ - Id
+ - ForeignKey(Approach)
+ - Priority
+ - Name [ShortText 255]
+ - Description [MediumText 4096]
+
+Task
+ - Id
+ - ForeignKey(Milestone)
+ - PriorityOrderId [Integer]
+ - Name [ShortText 255]
+ - Description [ShortText 255]
+
+TaskLink (Link)
+ - Id
+ - ForeignKey(Task)
+ - Title [ShortText 255]
+ - Comment [ShortText 255]
+ - URL [MediumText 4096]
+
+Page
+ - Id
+ - ForeignKey(Task)
+ - Title [ShortText 255]
+ - Contents [LongText 65536]
+
+PageComment
+ - Id
+ - ForeignKey(Page)
+ - ForeignKey(Currency)
+ - Text [MediumText 4096]
+ - TransactionTxt [ShortText 255]
+
+Wallet
+ - Id
+ - ForeignKey(User)
+ - ForeignKey(Currency)
+ - Address [ShortText 255]
+
+Currency
+ - Id
+ - Name [ShortText 55]
+ - Code [TinyText 3]
+
+MilestoneVote
+ - Id
+ - ForeignKey(Milestone)
+ - Value [Integer]
+
+TaskVote
+ - Id
+ - ForeignKey(Task)
+ - Value [Integer]
+</pre>
+

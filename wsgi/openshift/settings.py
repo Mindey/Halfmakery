@@ -157,6 +157,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'polls',
     'registration',
+    'halfmakery',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
