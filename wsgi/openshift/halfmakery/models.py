@@ -62,7 +62,7 @@ class Task(models.Model):
     def __unicode__(self):
          return self.name
 
-class TaskPage(models.Model):
+class Attempt(models.Model):
     task = models.ForeignKey(Task)
     title = models.CharField(max_length=255, blank=True)
     contents = models.TextField(validators=[MaxLengthValidator(65536)], blank=True)
@@ -70,8 +70,8 @@ class TaskPage(models.Model):
     def __unicode__(self):
          return self.title
 
-class PageLink(models.Model):
-    task = models.ForeignKey(Task)
+class Link(models.Model):
+    task = models.ForeignKey(Attempt)
     title = models.CharField(max_length=255)
     summary = models.CharField(max_length=255)
     url = models.CharField(max_length=4096)
@@ -86,8 +86,8 @@ class Currency(models.Model):
     def __unicode__(self):
          return self.name
 
-class PageComment(models.Model):
-    page = models.ForeignKey(TaskPage)
+class Comment(models.Model):
+    page = models.ForeignKey(Attempt)
     currency = models.ForeignKey(Currency)
     txid = models.CharField(max_length=255)
     text = models.TextField(validators=[MaxLengthValidator(4096)])
