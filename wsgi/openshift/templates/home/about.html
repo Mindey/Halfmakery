@@ -103,7 +103,7 @@ About Halfmakery.
             <li>[=] Improve on integration with GitHub, VIM, provide API...
 </ul>
 
-<b><u>Tasks:</u><b>
+<b><u>Tasks:</u></b>
 <ol>
 <li>Install 'django-registration',
 <li>Install 'django-registration-defaults',
@@ -220,4 +220,65 @@ TaskVote
  - ForeignKey(Task)
  - Value [Integer]
 </pre>
+
+<b><u>Further Tasks, for Views/Templates</u></b>
+
+<p>The most straightforward way to go that I see, is to write out the list of <b><u>Actions</u></b> that I will need regarding each object, and consistently work on each action, by writing the view to process that action. Here's the list of tasks in order of my preference.</p>
+
+<ol>
+<li>Add/Edit/View Approach (this should include all capabilities of adding its class -- <b><u>Category</u></b>, <b><u>Subcategory</u></b>, <b><u>Idea</u></b>)
+<li>Remove Approach (logically, this should delete the approach name, milestone names, and the author's tasks, their pages and comments. However, the other users' created tasks should remain, organized by nameless approach and milestones, and have their pages and comments. Category, Subcategory, Idea should remain.
+<li>Add/Edit/View Milestone to an Approach.
+<li>Remove Milestone (logically, this should delete the milestone name and the author's tasks, their attempts and comments. However, if there were other users' tasks under the milestone, they should remain organized under the nameless milestone, and have their pages and comments in-tact.
+<li>Add/Edit/View Task to Milestone.
+<li>Remove Task (logically, this should delete the task name and author's tasks, their attempts and comments. However, if there were other users' attempts under the task, they should remain organized under the nameless task, and have their comments and links in-tact.
+<li>Add/Edit/View Attempt.
+<li>Remove Attempt (this would remove all content from the attempt -- comments, except for comments with valid transactions -- usres can't lie that they had not received donations)
+<li>Add/Edit/View Link.
+<li>Remove Link.
+<li>Add/Edit/View Comment.
+<li>Remove Comment.
+<li>Add/Edit/View Address.
+<li>Remove Address.
+<li>Add/Edit/View Milestone Vote. (setting to zero equals deletion)
+<li>Add/Edit/View Task Vote. (setting to zero equals deletion)
+<li>Create User.
+<li>Edit User.
+<li>Delete User. (deleting a user would delete all the user's content, leaving just placeholders and classifiers, Category, Subcategory, Idea)
+</ol>
+
+<p><u><b>Draw the forms first?</b></u></p>
+
+<p>The person should be able to search for an idea to assign approach to, by browsing the ideas in the "Add Approach" page.</p>
+
+<p>But at most times, the idea won't be there, so, the person will have to add it.</p>
+
+<p>So, I'll need some querying from database.... However, if we preload only the idea names, it should be fine. 100K names, is just like 5MB, we have fast speeds of internet by that time...</p>
+
+<p>Start from manually writing a form...</p>
+
+Starting from: Basic Django form in forms.py
+<pre>
+from django import forms
+class ApproachForm(forms.Form)
+    name = form.CharField(_('Name'), required=True)
+</pre>
+
+And the view for it, in views.py:
+
+<pre>
+from halfmakery.forms import *
+
+def edit_approach(request, template_name='halfmakery/approach.html'):
+    if request.method == 'POST':
+        form = ApproachForm(request.POST)
+        if form.is_valid():
+            print 'Good'
+            return redirect('/')
+
+
+
+
+
+
 
