@@ -24,7 +24,7 @@ class Idea(models.Model):
     def __unicode__(self):
          return self.name
 
-class IdeaLink(models.Model):
+class Reference(models.Model):
     idea = models.ForeignKey(Idea)
     title = models.CharField(max_length=255)
     summary = models.CharField(max_length=255)
