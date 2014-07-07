@@ -42,6 +42,13 @@ class Approach(models.Model):
     def __unicode__(self):
          return self.name
 
+class Suggestion(models.Model):
+    approach = models.ForeignKey(Approach)
+    text = models.TextField(validators=[MaxLengthValidator(4096)])
+
+    def __unicode__(self):
+         return self.text
+
 class Milestone(models.Model):
     approach = models.ForeignKey(Approach)
     priority = models.IntegerField(default=0)
