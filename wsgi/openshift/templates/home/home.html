@@ -6,6 +6,10 @@ let's <a href="/admin">admin </a>...
 
 {% if user.is_authenticated %}
 <p>{{ user.username }} [<a href="/accounts/logout/">logout</a>]</p>
+<ul>
+<li> <a href="/approach/">Add/Edit Approach</a>
+<li> <a href="/approach_list/">View Approach List</a>
+</ul>
 {% else %}
 <p>
 [<a href="/accounts/login/">login</a>]

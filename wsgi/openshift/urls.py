@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^about/$', 'openshift.views.about', name='about'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^approach/$', 'halfmakery.views.approach', name='approach'),
+    url(r'^approach_list/$', 'halfmakery.views.approach_list', name='approach_list'),
     url(r'^chaining/', include('smart_selects.urls')),
     # url(r'^openshift/', include('openshift.foo.urls')),
 
