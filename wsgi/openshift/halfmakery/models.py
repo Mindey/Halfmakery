@@ -1,28 +1,37 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator
+from smart_selects.db_fields import ChainedForeignKey
 
 # Create your models here.
-class Category(models.Model):
-    name = models.CharField(max_length=55)
-
-    def __unicode__(self):
-         return self.name
-
-class Subcategory(models.Model):
-    name = models.CharField(max_length=255)
-
-    def __unicode__(self):
-         return self.name
 
 class Idea(models.Model):
-    category = models.ForeignKey(Category)
-    subcategory = models.ForeignKey(Subcategory)
     name = models.CharField(max_length=255)
-    description = models.TextField(validators=[MaxLengthValidator(4096)])
-
+    description = models.TextField() #validators=[MaxLengthValidator(4096)])
     def __unicode__(self):
-         return self.name
+        return self.name
+
+class Subcategory(models.Model):
+    name = models.CharField(max_length=20)
+    idea = models.ForeignKey(Idea)
+    def __unicode__(self):
+        return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=20)
+    subcategory = models.ForeignKey('Subcategory')
+    def __unicode__(self):
+        return self.name
+
+class Approach(models.Model):
+    category = models.ForeignKey(Category)
+    subcategory = ChainedForeignKey(Subcategory, chained_field='category', chained_model_field='category', auto_choose=True)
+    idea = ChainedForeignKey(Idea, chained_field='subcategory', chained_model_field='subcategory', auto_choose=True)
+    name = models.CharField(max_length=255)
+    goal = models.CharField(max_length=255)
+    description = models.TextField(validators=[MaxLengthValidator(4096)])
+    def __unicode__(self):
+        return '%s %s %s' % (self.category, self.subcategory, self.idea)
 
 class Reference(models.Model):
     idea = models.ForeignKey(Idea)
@@ -32,15 +41,6 @@ class Reference(models.Model):
 
     def __unicode__(self):
          return self.title
-
-class Approach(models.Model):
-    idea = models.ForeignKey(Idea)
-    name = models.CharField(max_length=255)
-    goal = models.CharField(max_length=255)
-    description = models.TextField(validators=[MaxLengthValidator(4096)])
-
-    def __unicode__(self):
-         return self.name
 
 class Suggestion(models.Model):
     approach = models.ForeignKey(Approach)

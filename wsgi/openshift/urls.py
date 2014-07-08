@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^about/$', 'openshift.views.about', name='about'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^approach/$', 'halfmakery.views.approach', name='approach'),
+    url(r'^chaining/', include('smart_selects.urls')),
     # url(r'^openshift/', include('openshift.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
