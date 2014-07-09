@@ -27,9 +27,11 @@ class Approach(models.Model):
     category = models.ForeignKey(Category)
     subcategory = ChainedForeignKey(Subcategory, chained_field='category', chained_model_field='category', auto_choose=True)
     idea = ChainedForeignKey(Idea, chained_field='subcategory', chained_model_field='subcategory', auto_choose=True)
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     goal = models.CharField(max_length=255)
     sketch = models.TextField(validators=[MaxLengthValidator(4096)])
+    class Meta:
+        unique_together = ('category', 'subcategory', 'idea', 'name')
     def __unicode__(self):
         return '%s %s %s' % (self.category, self.subcategory, self.idea)
 

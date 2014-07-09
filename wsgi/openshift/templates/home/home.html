@@ -8,9 +8,14 @@ let's <a href="/admin">admin </a>...
 <p>{{ user.username }} [<a href="/accounts/logout/">logout</a>]</p>
 <ul>
 <li> <a href="/approach/">Add/Edit Approach</a>
-<li> <a href="/approach_list/">View Approach List</a>
 </ul>
+Approaches:
+<ul>
+{% for i in approaches %}
+<li><a href="/approach/{{ i.id }}">{{ i.name }}</a> [Idea: {{i.idea.name}}]
+{% endfor %}
 {% else %}
+</ul>
 <p>
 [<a href="/accounts/login/">login</a>]
 </p>

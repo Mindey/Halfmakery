@@ -2,8 +2,9 @@
 
 from halfmakery import forms
 from django.shortcuts import render, redirect
+from halfmakery.models import Approach
 
-def approach(request, template_name='halfmakery/approach_tpl.html'):
+def approach_add(request, template_name='halfmakery/approach_tpl.html'):
     """ This view will be used to add, edit, delete, and modify
         approaches, depending on the POST and GET variables we get."""
     form = forms.ApproachForm(request.POST or None)
@@ -16,6 +17,11 @@ def approach(request, template_name='halfmakery/approach_tpl.html'):
                                            'req': request,
                                            'valid': validity})
     
+def approach_edit(request, approach_id, template_name='halfmakery/approach_tpl.html'):
+    """ This view will be used to add, edit, delete, and modify
+        approaches, depending on the POST and GET variables we get."""
+    
+    approach = Approach.objects.all().filter(id=int(approach_id))[0] 
+    form = forms.ApproachForm(instance=approach)
 
-def approach_list(request, template_name='halfmakery/approach_list_tpl.html'):
-    return render(request, template_name, {})   
+    return render(request, template_name, {'form': form})
