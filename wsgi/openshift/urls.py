@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^approach/$', 'halfmakery.views.approach_add', name='approach_add'),
     url(r'^approach/(?P<approach_id>\d+)$', 'halfmakery.views.approach_edit', name='approach_edit'),
+    url(r'^approach/(?P<approach_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.approach_delete', name='approach_delete'),
     url(r'^chaining/', include('smart_selects.urls')),
     # url(r'^openshift/', include('openshift.foo.urls')),
 

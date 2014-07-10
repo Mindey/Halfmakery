@@ -1,11 +1,12 @@
 <a href="/"><<</a>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 {{ valid }}
-<form method="POST" action="/approach/">
+<form method="POST" action="{{form_action}}">
 {% csrf_token %}
 <table>
 {{ form }}
 </table>
 <input type="submit">
+<a href="{{form_action}}/delete">delete</a>
 </form>
 
