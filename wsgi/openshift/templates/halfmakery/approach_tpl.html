@@ -3,10 +3,28 @@
 {{ valid }}
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
+[edit, <a href="{{form_action}}/delete">delete</a>]
 <table>
 {{ form }}
 </table>
-<input type="submit">
-<a href="{{form_action}}/delete">delete</a>
+<input type="submit" value="Submit">
 </form>
+{% for milestone in milestones %} 
+<ul>
+<li><a name="{{milestone.id}}" href="{{form_action}}/milestone#{{milestone.id}}">{{ milestone }}</a> [<a href="{{form_action}}/milestone/{{milestone.id}}">edit</a>, <a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>]
+    <p>{{milestone.details}}</p>
+</ul>
+{% endfor %}
 
+{% if milestones_limit_reached %}
+ Maximum number of milestones reached.
+{% else %}
+Add Milestones to define the approach.
+<form method="POST" action="{{form_action}}/milestone">
+{% csrf_token %}
+<table>
+{{ milestone_form }}
+</table>
+<input type="submit" value="Submit">
+</form>
+{% endif %}
