@@ -16,6 +16,11 @@ urlpatterns = patterns('',
     # Milestone
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.milestone_action', name='milestone_action'),
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)$', 'halfmakery.views.milestone_view', name='milestone_view'),
+    # Task
+    url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.task_action', name='task_action'),
+    url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)$', 'halfmakery.views.task_view', name='task_view'),
+    # Attempt
+    url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)/(?P<attempt>[^/]+)/(?P<attempt_id>\d+)$', 'halfmakery.views.attempt_view', name='attempt_view'),
 
     url(r'^chaining/', include('smart_selects.urls')),
     # url(r'^openshift/', include('openshift.foo.urls')),

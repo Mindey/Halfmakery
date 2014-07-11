@@ -9,18 +9,19 @@
 <input type="submit" value="Submit">
 </form>
 
-<p><b>Tasks and attempts</b></p>
+<p><b>Documenting attempts</b></p>
 <ul>
-{% for task in tasks %}
-<li><a href="{{form_action}}/task/{{task.id}}">{{ task }}</a> [<a href="{{form_action}}/task/{{task.id}}/delete">delete</a>]
+{% for attempt in attempts %}
+<li><a href="{{form_action}}/attempt/{{attempt.id}}">{{ attempt }}</a>
 {% endfor %}
 </ul>
 
-<p><b>Add Tasks to yourself and others to attempt.</b></p>
-<form method="POST" action="{{form_action}}/task">
+<p><b>Add your attempt.</b></p>
+
+<form method="POST" action="{{form_action}}/attempt">
 {% csrf_token %}
 <table>
-{{ task_form }}
+{{ attempt_form }}
 </table>
 <input type="submit" value="Submit">
 </form>

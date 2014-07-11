@@ -71,7 +71,7 @@ class Task(models.Model):
     def __unicode__(self):
          return self.name
 
-class Attempt(models.Model):
+class Attempt(models.Model): # Note: Attempt is the page itself, where we document what we did...
     task = models.ForeignKey(Task)
     title = models.CharField(max_length=255, blank=True)
     contents = models.TextField(validators=[MaxLengthValidator(65536)], blank=True)

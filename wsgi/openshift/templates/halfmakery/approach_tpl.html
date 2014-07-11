@@ -9,12 +9,12 @@
 </table>
 <input type="submit" value="Submit">
 </form>
+<ol>
 {% for milestone in milestones %} 
-<ul>
-<li><a name="{{milestone.id}}" href="{{form_action}}/milestone#{{milestone.id}}">{{ milestone }}</a> [<a href="{{form_action}}/milestone/{{milestone.id}}">edit</a>, <a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>]
+<li><a name="{{milestone.id}}" href="{{form_action}}/milestone/{{milestone.id}}">{{ milestone }}</a> [<a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>]
     <p>{{milestone.details}}</p>
-</ul>
 {% endfor %}
+</ol>
 
 {% if milestones_limit_reached %}
  Maximum number of milestones reached.

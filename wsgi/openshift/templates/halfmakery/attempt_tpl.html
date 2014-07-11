@@ -1,0 +1,10 @@
+<a href="{{return_link}}"><<</a>
+
+<form method="POST" action="{{form_action}}">
+{% csrf_token %}
+<table>
+{{ form }}
+</table>
+<input type="submit" value="Submit">
+<input type="checkbox" name="delete" value="TRUE">Delete this page.<br>
+</form>
