@@ -5,7 +5,7 @@ Halfmakery!
 let's <a href="/admin">admin </a>...
 
 {% if user.is_authenticated %}
-<p>{{ user.username }} [<a href="/accounts/logout/">logout</a>]</p>
+<p><a href="/user/{{ user.username }}">{{ user.username }}</a> [<a href="/accounts/logout/">logout</a>]</p>
 <ul>
 <li> <a href="/approach/">Add/Edit Approach</a>
 </ul>

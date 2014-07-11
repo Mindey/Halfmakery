@@ -3,6 +3,7 @@
 from halfmakery import forms
 from django.shortcuts import render, redirect
 from halfmakery.models import Approach, Milestone, Task, Attempt
+from django.contrib.auth.models import User
 
 # Limit of most people's short term memory
 MAX_MILESTONES_COUNT = 8
@@ -139,3 +140,6 @@ def attempt_view(request, approach_id, milestone, milestone_id, task, task_id, a
     return render(request, template_name, {'form': form,
                                            'return_link': '/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id)})
 
+def user(request, username, template_name='halfmakery/user_tpl.html'):
+    
+    return render(request, template_name, {})
