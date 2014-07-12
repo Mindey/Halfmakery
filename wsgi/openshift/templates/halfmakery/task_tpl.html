@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <a href="{{return_link}}"><<</a>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
@@ -25,3 +27,7 @@
 </table>
 <input type="submit" value="Submit">
 </form>
+{% endblock %}
+{% block comments %}
+hihi, these are task comments
+{% endblock %}

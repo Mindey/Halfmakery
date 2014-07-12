@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <a href="{{return_link}}"><<</a>
 
 <form method="POST" action="{{form_action}}">
@@ -8,3 +10,7 @@
 <input type="submit" value="Save">
 <input type="checkbox" name="delete" value="TRUE">Delete this page.<br>
 </form>
+{% endblock %}
+{% block comments %}
+hihi, these are attempt comments
+{% endblock %}

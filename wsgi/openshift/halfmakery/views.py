@@ -2,7 +2,7 @@
 
 from halfmakery import forms
 from django.shortcuts import render, redirect
-from halfmakery.models import Approach, Milestone, Task, Attempt, Address
+from halfmakery.models import Approach, Milestone, Task, Attempt, Address, Comment
 from django.contrib.auth.models import User
 
 # Limit of most people's short term memory
@@ -32,12 +32,15 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
     milestone_form = forms.MilestoneForm(initial={'approach': approach_id})
     milestones = Milestone.objects.all().filter(approach_id=approach_id).order_by('-priority')
 
+    comments = Comment.objects.all()
+
     return render(request, template_name, {'form': form,
                                            'milestones': milestones,
                                            'milestone_form': milestone_form,
                                            'milestones_limit_reached': milestones.count() >= MAX_MILESTONES_COUNT,
                                            'req': request,
-                                           'form_action': '/approach/'+str(approach_id)})
+                                           'form_action': '/approach/'+str(approach_id),
+                                           'comments': comments})
 
 def approach_action(request, approach_id, action, template_name='halfmakery/approach_tpl.html'):
     """ This view will be used to delete, and execute actions of its depenents

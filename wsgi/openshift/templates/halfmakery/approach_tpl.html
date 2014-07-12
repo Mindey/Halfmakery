@@ -1,5 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
 <a href="/"><<</a>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 {{ valid }}
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
@@ -28,3 +29,12 @@ Add Milestones to define the approach.
 <input type="submit" value="Submit">
 </form>
 {% endif %}
+{% endblock %}
+{% block comments %}
+hihi, these are approach comments
+<ul>
+{% for comment in comments %}
+<li>{{ comment.text }} [ {{ comment.user }} ]
+{% endfor %}
+</ul>
+{% endblock %}

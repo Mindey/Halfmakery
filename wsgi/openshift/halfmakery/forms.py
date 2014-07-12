@@ -32,7 +32,7 @@ class AttemptFormFull(forms.ModelForm):
     class Meta:
         model = Attempt
         widgets = {'task': forms.HiddenInput(),
-                   'contents': forms.Textarea(attrs={'rows':30, 'cols': 200}) }
+                   'contents': forms.Textarea(attrs={'rows':30, 'cols': 50}) }
 
 class AddressForm(forms.ModelForm):
     class Meta:
