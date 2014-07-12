@@ -44,13 +44,6 @@ class Reference(models.Model):
     def __unicode__(self):
          return self.title
 
-class Suggestion(models.Model):
-    approach = models.ForeignKey(Approach)
-    text = models.TextField(validators=[MaxLengthValidator(4096)])
-
-    def __unicode__(self):
-         return self.text
-
 class Milestone(models.Model):
     approach = models.ForeignKey(Approach)
     priority = models.IntegerField(default=0)
@@ -93,10 +86,13 @@ class Currency(models.Model):
     code = models.CharField(max_length=5)
 
     def __unicode__(self):
-         return self.name
+         return self.code
 
 class Comment(models.Model):
-    page = models.ForeignKey(Attempt)
+    approach = models.ForeignKey(Approach)
+    milestone = models.ForeignKey(Milestone, blank=True, null=True)
+    task = models.ForeignKey(Task, blank=True, null=True)
+    attempt = models.ForeignKey(Attempt, blank=True, null=True)
     currency = models.ForeignKey(Currency)
     txid = models.CharField(max_length=255)
     text = models.TextField(validators=[MaxLengthValidator(4096)])

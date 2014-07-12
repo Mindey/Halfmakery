@@ -8,8 +8,6 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'openshift.views.home', name='home'),
     url(r'^about/$', 'openshift.views.about', name='about'),
-    # User
-    url(r'^user/(?P<username>[^/]+)$', 'halfmakery.views.user', name='user'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     # Approach
     url(r'^approach/$', 'halfmakery.views.approach_add', name='approach_add'),
@@ -23,6 +21,8 @@ urlpatterns = patterns('',
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)$', 'halfmakery.views.task_view', name='task_view'),
     # Attempt
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)/(?P<attempt>[^/]+)/(?P<attempt_id>\d+)$', 'halfmakery.views.attempt_view', name='attempt_view'),
+    # Address (BTC/LTC/etc.)
+    url(r'^user/(?P<user_id>\d+)$', 'halfmakery.views.user', name='user'),
 
     url(r'^chaining/', include('smart_selects.urls')),
     # url(r'^openshift/', include('openshift.foo.urls')),

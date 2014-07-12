@@ -2,7 +2,7 @@
 
 from halfmakery import forms
 from django.shortcuts import render, redirect
-from halfmakery.models import Approach, Milestone, Task, Attempt
+from halfmakery.models import Approach, Milestone, Task, Attempt, Address
 from django.contrib.auth.models import User
 
 # Limit of most people's short term memory
@@ -140,6 +140,12 @@ def attempt_view(request, approach_id, milestone, milestone_id, task, task_id, a
     return render(request, template_name, {'form': form,
                                            'return_link': '/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id)})
 
-def user(request, username, template_name='halfmakery/user_tpl.html'):
-    
-    return render(request, template_name, {})
+def user(request, user_id, template_name='halfmakery/user_tpl.html'):
+    addresses = Address.objects.all().filter(user_id=user_id)
+    form = forms.AddressForm(request.POST or None, initial={'user': user_id})
+    if form.is_valid():
+        form.save()
+
+    return render(request, template_name, {'addresses': addresses,
+                                           'form': form,
+                                           'form_action': '/user/%s' % user_id})

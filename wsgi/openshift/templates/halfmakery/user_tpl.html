@@ -1,3 +1,18 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 Here we'll see the user addresses.
+<ul>
+{% for address in addresses %}
+<li> {{address.currency}}, {{address.address}}
+{% endfor %}
+</ul>
+
+<form method="POST" action="{{form_action}}">
+{% csrf_token %}
+<table>
+{{ form }}
+</table>
+<input type="submit" value="Submit">
+</form>
+
+
