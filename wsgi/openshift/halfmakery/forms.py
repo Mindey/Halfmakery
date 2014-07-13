@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext as _
-from halfmakery.models import Approach, Milestone, Task, Attempt, Address
+from halfmakery.models import Approach, Milestone, Task, Attempt, Address, Comment
 
 class ApproachForm(forms.ModelForm):
     class Meta:
@@ -38,3 +38,12 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         widgets = {'user': forms.HiddenInput()}
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        widgets = {'approach': forms.HiddenInput(),
+                   'milestone': forms.HiddenInput(),
+                   'task': forms.HiddenInput(),
+                   'attempt': forms.HiddenInput(),
+                   'text': forms.Textarea(attrs={'rows':3}) }

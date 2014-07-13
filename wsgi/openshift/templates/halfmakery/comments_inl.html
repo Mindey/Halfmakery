@@ -1,0 +1,15 @@
+<ul>
+{% for comment in comments %}
+  {% if comment.id == edit_comment_id %}                                            
+  <li><form method="POST" action="{{form_action}}"><table>{{ comment_editing_form }}<input type="submit" value="Save"></table></form>
+  {% else %}
+  <li>{{ comment.text }} [ {{ comment.id }} ]
+  {% endif %}
+{% endfor %}
+</ul>
+
+{% if not edit_comment_id %}
+Add new comment
+  <form method="POST" action="{{form_action}}/comment" name="comment">{% csrf_token %}<table>{{ comment_editing_form }}</table><input type="submit" value="Save"></form>
+{% endif %}
+

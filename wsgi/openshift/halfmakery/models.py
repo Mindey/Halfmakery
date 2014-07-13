@@ -4,6 +4,9 @@ from django.core.validators import MaxLengthValidator
 from smart_selects.db_fields import ChainedForeignKey
 
 # Create your models here.
+# created_at = models.DateTimeField(auto_now_add=True)
+# updated_at = models.DateTimeField(auto_now=True)
+# User....
 
 class Idea(models.Model):
     name = models.CharField(max_length=255)

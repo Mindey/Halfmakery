@@ -32,15 +32,30 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
     milestone_form = forms.MilestoneForm(initial={'approach': approach_id})
     milestones = Milestone.objects.all().filter(approach_id=approach_id).order_by('-priority')
 
-    comments = Comment.objects.all()
+    def comment_proc(request, approach, approach_id):
+        edit_comment_id = request.GET.get('comment', False)
+        if edit_comment_id: edit_comment_id = int(edit_comment_id);
+        comments = Comment.objects.all().filter(approach_id=approach_id, milestone_id=None, task_id=None, attempt_id=None)
+        comment_editing_form = forms.CommentForm(request.POST or None, initial={'approach': approach})
+        if comment_editing_form.is_valid():
+            comment_editing_form.save()
+        for comment in comments:
+            if comment.id == edit_comment_id:
+                comment_editing_form = forms.CommentForm(instance=comment)
+        return comments, edit_comment_id, comment_editing_form
 
+    comments, edit_comment_id, comment_editing_form = comment_proc(request, approach, approach_id)
+
+    # / Comments
     return render(request, template_name, {'form': form,
                                            'milestones': milestones,
                                            'milestone_form': milestone_form,
                                            'milestones_limit_reached': milestones.count() >= MAX_MILESTONES_COUNT,
                                            'req': request,
                                            'form_action': '/approach/'+str(approach_id),
-                                           'comments': comments})
+                                           'comments': comments,
+                                           'edit_comment_id': edit_comment_id,
+                                           'comment_editing_form': comment_editing_form})
 
 def approach_action(request, approach_id, action, template_name='halfmakery/approach_tpl.html'):
     """ This view will be used to delete, and execute actions of its depenents
@@ -62,7 +77,13 @@ def approach_action(request, approach_id, action, template_name='halfmakery/appr
             """MAX_MILESTONES_COUNT reached."""
             pass
 
-    return redirect('/approach/'+str(approach_id))
+    # Create Comment
+    if action == 'comment':
+        form = forms.CommentForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+
+    return redirect('/approach/%s' % approach_id)
 
 
 def milestone_action(request, approach_id, milestone, milestone_id, action, template_name='halfmakery/approach_tpl.html'):
@@ -79,7 +100,14 @@ def milestone_action(request, approach_id, milestone, milestone_id, action, temp
             form.save()
         return redirect('/approach/%s/milestone/%s' % (approach_id, milestone_id))
 
-    return redirect('/approach/'+str(approach_id))
+    # Create Comment
+    if action == 'comment':
+        form = forms.CommentForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('/approach/%s/milestone/%s' % (approach_id, milestone_id))
+
+    return redirect('/approach/%s' % approach_id)
 
 def milestone_view(request, approach_id, milestone, milestone_id, template_name='halfmakery/milestone_tpl.html'):
     milestone = Milestone.objects.get(id=milestone_id)
@@ -89,12 +117,30 @@ def milestone_view(request, approach_id, milestone, milestone_id, template_name=
 
     task_form = forms.TaskForm(initial={'milestone': milestone_id})
     tasks = Task.objects.all().filter(milestone_id=milestone_id).order_by('-priority')
+
+    def comment_proc(request, approach_id, milestone, milestone_id):
+        edit_comment_id = request.GET.get('comment', False)
+        if edit_comment_id: edit_comment_id = int(edit_comment_id);
+        comments = Comment.objects.all().filter(approach_id=approach_id, milestone_id=milestone_id, task_id=None, attempt_id=None)
+        approach = Approach.objects.get(id=approach_id)
+        comment_editing_form = forms.CommentForm(request.POST or None, initial={'approach': approach, 'milestone': milestone})
+        if comment_editing_form.is_valid():
+            comment_editing_form.save()
+        for comment in comments:
+            if comment.id == edit_comment_id:
+                comment_editing_form = forms.CommentForm(instance=comment)
+        return comments, edit_comment_id, comment_editing_form
+
+    comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id)
     
     return render(request, template_name, {'form': form,
                                            'tasks': tasks,
                                            'task_form': task_form,
                                            'return_link': '/approach/%s' % (approach_id,),
-                                           'form_action': '/approach/%s/milestone/%s' % (approach_id, milestone_id)})
+                                           'form_action': '/approach/%s/milestone/%s' % (approach_id, milestone_id),
+                                           'comments': comments,
+                                           'edit_comment_id': edit_comment_id,
+                                           'comment_editing_form': comment_editing_form})
 
 
 def task_action(request, approach_id, milestone, milestone_id, task, task_id, action, template_name='halfmakery/milestone_tpl.html'):
@@ -108,8 +154,19 @@ def task_action(request, approach_id, milestone, milestone_id, task, task_id, ac
         if form.is_valid():
             form.save()
         return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))
+
+    if action == 'comment':
+        form = forms.CommentForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))
+        else:
+            return redirect('/test')
     
     return redirect('/approach/%s/milestone/%s' % (approach_id, milestone_id))
+
+def test(request, template_name='halfmakery/test_tpl.html'):
+    return render(request, template_name, {'req': request})
 
 def task_view(request, approach_id, milestone, milestone_id, task, task_id, template_name='halfmakery/task_tpl.html'):
     
@@ -121,14 +178,45 @@ def task_view(request, approach_id, milestone, milestone_id, task, task_id, temp
 
     attempt_form = forms.AttemptForm(initial={'task': task_id})
     attempts = Attempt.objects.all().filter(task_id=task_id)
+
+    def comment_proc(request, approach_id, milestone, milestone_id, task, task_id):
+        edit_comment_id = request.GET.get('comment', False)
+        if edit_comment_id: edit_comment_id = int(edit_comment_id);
+        comments = Comment.objects.all().filter(approach_id=approach_id, milestone_id=milestone_id, task_id=task_id, attempt_id=None)
+        approach = Approach.objects.get(id=approach_id)
+        comment_editing_form = forms.CommentForm(request.POST or None, initial={'approach': approach, 'milestone': milestone_id, 'task': task})
+        if comment_editing_form.is_valid():
+            comment_editing_form.save()
+        for comment in comments:
+            if comment.id == edit_comment_id:
+                comment_editing_form = forms.CommentForm(instance=comment)
+        return comments, edit_comment_id, comment_editing_form
+
+    comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id, task, task_id)
  
     return render(request, template_name, {'form': form,
                                            'attempt_form': attempt_form,
                                            'attempts': attempts,
                                            'form_action': '/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id),
-                                           'return_link': '/approach/%s/milestone/%s' % (approach_id, milestone_id)})
-                                           
+                                           'return_link': '/approach/%s/milestone/%s' % (approach_id, milestone_id),
+                                           'comments': comments,
+                                           'edit_comment_id': edit_comment_id,
+                                           'comment_editing_form': comment_editing_form})
     
+
+def attempt_action(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id, action, template_name='halfmakery/task_tpl.html'):
+
+    if action == 'comment':
+        form = forms.CommentForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('/approach/%s/milestone/%s/task/%s/attempt/%s' % (approach_id, milestone_id, task_id, attempt_id))
+        else:
+            return redirect('/test')
+    
+    return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))
+
+
 def attempt_view(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id, template_name='halfmakery/attempt_tpl.html'):
     attempt = Attempt.objects.get(id=attempt_id)
     form = forms.AttemptFormFull(request.POST or None, instance=attempt)
@@ -140,8 +228,27 @@ def attempt_view(request, approach_id, milestone, milestone_id, task, task_id, a
     elif form.is_valid():
         form.save()
 
+    def comment_proc(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id):
+        edit_comment_id = request.GET.get('comment', False)
+        if edit_comment_id: edit_comment_id = int(edit_comment_id);
+        comments = Comment.objects.all().filter(approach_id=approach_id, milestone_id=milestone_id, task_id=task_id, attempt_id=attempt_id)
+        approach = Approach.objects.get(id=approach_id)
+        comment_editing_form = forms.CommentForm(request.POST or None, initial={'approach': approach, 'milestone': milestone_id, 'task': task_id, 'attempt': attempt})
+        if comment_editing_form.is_valid():
+            comment_editing_form.save()
+        for comment in comments:
+            if comment.id == edit_comment_id:
+                comment_editing_form = forms.CommentForm(instance=comment)
+        return comments, edit_comment_id, comment_editing_form
+
+    comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id)
+
     return render(request, template_name, {'form': form,
-                                           'return_link': '/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id)})
+                                           'form_action': '/approach/%s/milestone/%s/task/%s/attempt/%s' % (approach_id, milestone_id, task_id, attempt_id),
+                                           'return_link': '/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id),
+                                           'comments': comments,
+                                           'edit_comment_id': edit_comment_id,
+                                           'comment_editing_form': comment_editing_form})
 
 def user(request, user_id, template_name='halfmakery/user_tpl.html'):
     addresses = Address.objects.all().filter(user_id=user_id)

@@ -32,9 +32,5 @@ Add Milestones to define the approach.
 {% endblock %}
 {% block comments %}
 hihi, these are approach comments
-<ul>
-{% for comment in comments %}
-<li>{{ comment.text }} [ {{ comment.user }} ]
-{% endfor %}
-</ul>
+{% include 'halfmakery/comments_inl.html' %}
 {% endblock %}

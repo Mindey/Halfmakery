@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^test$', 'halfmakery.views.test', name='test'),
     # Examples:
     url(r'^$', 'openshift.views.home', name='home'),
     url(r'^about/$', 'openshift.views.about', name='about'),
@@ -21,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)$', 'halfmakery.views.task_view', name='task_view'),
     # Attempt
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)/(?P<attempt>[^/]+)/(?P<attempt_id>\d+)$', 'halfmakery.views.attempt_view', name='attempt_view'),
+    url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)/(?P<attempt>[^/]+)/(?P<attempt_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.attempt_action', name='attempt_action'),
     # Address (BTC/LTC/etc.)
     url(r'^user/(?P<user_id>\d+)$', 'halfmakery.views.user', name='user'),
 
