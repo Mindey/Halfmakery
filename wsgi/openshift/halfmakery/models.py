@@ -4,25 +4,29 @@ from django.core.validators import MaxLengthValidator
 from smart_selects.db_fields import ChainedForeignKey
 
 # Create your models here.
-# created_at = models.DateTimeField(auto_now_add=True)
-# updated_at = models.DateTimeField(auto_now=True)
 # User....
 
 class Idea(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField() #validators=[MaxLengthValidator(4096)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __unicode__(self):
         return self.name
 
 class Subcategory(models.Model):
     name = models.CharField(max_length=20)
     idea = models.ForeignKey(Idea)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __unicode__(self):
         return self.name
 
 class Category(models.Model):
     name = models.CharField(max_length=20)
     subcategory = models.ForeignKey('Subcategory')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __unicode__(self):
         return self.name
 
@@ -33,6 +37,8 @@ class Approach(models.Model):
     name = models.CharField(max_length=255)
     goal = models.CharField(max_length=255)
     sketch = models.TextField(validators=[MaxLengthValidator(4096)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         unique_together = ('category', 'subcategory', 'idea', 'name')
     def __unicode__(self):
@@ -43,6 +49,8 @@ class Reference(models.Model):
     title = models.CharField(max_length=255)
     summary = models.CharField(max_length=255)
     url = models.CharField(max_length=4096)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
          return self.title
@@ -53,6 +61,8 @@ class Milestone(models.Model):
     name = models.CharField(max_length=255)
     details = models.TextField(validators=[MaxLengthValidator(4096)], blank=True)
     achieved = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
          return self.name
@@ -63,6 +73,8 @@ class Task(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(validators=[MaxLengthValidator(4096)], blank=True)
     complete = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
          return self.name
@@ -71,6 +83,8 @@ class Attempt(models.Model): # Note: Attempt is the page itself, where we docume
     task = models.ForeignKey(Task)
     title = models.CharField(max_length=255, blank=True)
     contents = models.TextField(validators=[MaxLengthValidator(65536)], blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
          return self.title
@@ -80,6 +94,8 @@ class Link(models.Model):
     title = models.CharField(max_length=255)
     summary = models.CharField(max_length=255)
     url = models.CharField(max_length=4096)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
          return self.title
@@ -87,6 +103,8 @@ class Link(models.Model):
 class Currency(models.Model):
     name = models.CharField(max_length=55)
     code = models.CharField(max_length=5)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
          return self.code
@@ -99,6 +117,8 @@ class Comment(models.Model):
     currency = models.ForeignKey(Currency)
     txid = models.CharField(max_length=255)
     text = models.TextField(validators=[MaxLengthValidator(4096)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
          return self.text
@@ -106,6 +126,8 @@ class Comment(models.Model):
 class MilestoneVote(models.Model):
     milestone = models.ForeignKey(Milestone)
     value = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __integer__(self):
          return self.value
@@ -113,6 +135,8 @@ class MilestoneVote(models.Model):
 class TaskVote(models.Model):
     milestone = models.ForeignKey(Milestone)
     value = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __integer__(self):
          return self.value
@@ -121,3 +145,5 @@ class Address(models.Model):
     user = models.ForeignKey(User)
     currency = models.ForeignKey(Currency)
     address = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
