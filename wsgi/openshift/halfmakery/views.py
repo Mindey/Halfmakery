@@ -15,7 +15,9 @@ def approach_add(request, template_name='halfmakery/approach_tpl.html'):
     validity = False
     if form.is_valid():
         validity = True
-        approach = form.save()
+        approach = form.save(commit=False)
+        approach.user = request.user
+        approach.save()
         return redirect('/approach/'+str(approach.id))
     return render(request, template_name, {'form': form,
                                            'valid': validity,
@@ -25,6 +27,7 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
     """ This view will be used to edit
         approaches, depending on the POST and GET variables we get."""
     approach = Approach.objects.get(id=approach_id)
+    # approach.user = request.user
     form = forms.ApproachForm(request.POST or None, instance=approach)
     if form.is_valid():
         form.save()
@@ -72,7 +75,9 @@ def approach_action(request, approach_id, action, template_name='halfmakery/appr
         form = forms.MilestoneForm(request.POST or None)
         if Milestone.objects.all().filter(approach_id=approach_id).count() < MAX_MILESTONES_COUNT:
             if form.is_valid():
-                form.save()
+                milestone = form.save(commit=False)
+                milestone.user = request.user
+                milestone.save()
         else:
             """MAX_MILESTONES_COUNT reached."""
             pass
@@ -97,7 +102,9 @@ def milestone_action(request, approach_id, milestone, milestone_id, action, temp
     if action == 'task':
         form = forms.TaskForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
         return redirect('/approach/%s/milestone/%s' % (approach_id, milestone_id))
 
     # Create Comment
@@ -152,7 +159,9 @@ def task_action(request, approach_id, milestone, milestone_id, task, task_id, ac
     if action == 'attempt':
         form = forms.AttemptForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            attempt = form.save(commit=False)
+            attempt.user = request.user
+            attempt.save()
         return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))
 
     if action == 'comment':
@@ -209,7 +218,9 @@ def attempt_action(request, approach_id, milestone, milestone_id, task, task_id,
     if action == 'comment':
         form = forms.CommentForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.save()
             return redirect('/approach/%s/milestone/%s/task/%s/attempt/%s' % (approach_id, milestone_id, task_id, attempt_id))
         else:
             return redirect('/test')

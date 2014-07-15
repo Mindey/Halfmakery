@@ -39,6 +39,7 @@ class Approach(models.Model):
     sketch = models.TextField(validators=[MaxLengthValidator(4096)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
     class Meta:
         unique_together = ('category', 'subcategory', 'idea', 'name')
     def __unicode__(self):
@@ -51,6 +52,7 @@ class Reference(models.Model):
     url = models.CharField(max_length=4096)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
          return self.title
@@ -63,6 +65,7 @@ class Milestone(models.Model):
     achieved = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
          return self.name
@@ -75,6 +78,7 @@ class Task(models.Model):
     complete = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
          return self.name
@@ -85,6 +89,7 @@ class Attempt(models.Model): # Note: Attempt is the page itself, where we docume
     contents = models.TextField(validators=[MaxLengthValidator(65536)], blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
          return self.title
@@ -96,6 +101,7 @@ class Link(models.Model):
     url = models.CharField(max_length=4096)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
          return self.title
@@ -119,6 +125,7 @@ class Comment(models.Model):
     text = models.TextField(validators=[MaxLengthValidator(4096)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
          return self.text
@@ -128,6 +135,7 @@ class MilestoneVote(models.Model):
     value = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
 
     def __integer__(self):
          return self.value
@@ -137,6 +145,7 @@ class TaskVote(models.Model):
     value = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User)
 
     def __integer__(self):
          return self.value
