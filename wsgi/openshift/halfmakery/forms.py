@@ -43,12 +43,11 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         exclude = ['user']
-        widgets = {'user': forms.HiddenInput()}
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        exclude = ['user']
+        exclude = ['user', 'recipients', 'satoshis']
         widgets = {'approach': forms.HiddenInput(),
                    'milestone': forms.HiddenInput(),
                    'task': forms.HiddenInput(),

@@ -126,6 +126,8 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User)
+    recipients = models.ManyToManyField(User, related_name='user', blank=False)
+    satoshis = models.BigIntegerField(blank=False)
 
     def __unicode__(self):
          return self.text

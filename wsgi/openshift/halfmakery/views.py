@@ -5,6 +5,21 @@ from django.shortcuts import render, redirect
 from halfmakery.models import Approach, Milestone, Task, Attempt, Address, Comment
 from django.contrib.auth.models import User
 
+# Interaction with Blockchains.
+
+def get_recipients_and_total(txid, currency='BTC'):
+    import requests, json
+    r = requests.get('https://blockchain.info/tx-index/%s?format=json' % txid)
+    c = json.loads(r.content)
+    addrs = [d['addr'] for d in c['out'] if 'addr' in d]
+    addresses = Address.objects.all().filter(address__in=addrs)
+    recipients = []
+    satoshis = 0
+    for address in addresses:
+        recipients.append(address.user.id)
+        satoshis += int(c['out'][addrs.index(address.address)]['value'])
+    return (recipients, satoshis)
+
 # Limit of most people's short term memory
 MAX_MILESTONES_COUNT = 8
 
@@ -86,7 +101,17 @@ def approach_action(request, approach_id, action, template_name='halfmakery/appr
     if action == 'comment':
         form = forms.CommentForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            comment = form.save(commit=False)
+            comment.user = request.user
+            try:
+                recipients, total = get_recipients_and_total(comment.txid)
+                __this_txid_is_used__ = Comment.objects.all().filter(txid=comment.txid)
+                if not __this_txid_is_used__:
+                    comment.satoshis = total
+                    comment.save()
+                    comment.recipients = recipients
+            except:
+                pass
 
     return redirect('/approach/%s' % approach_id)
 
@@ -265,7 +290,9 @@ def user(request, user_id, template_name='halfmakery/user_tpl.html'):
     addresses = Address.objects.all().filter(user_id=user_id)
     form = forms.AddressForm(request.POST or None, initial={'user': user_id})
     if form.is_valid():
-        form.save()
+        address = form.save(commit=False)
+        address.user = request.user
+        address.save()
 
     return render(request, template_name, {'addresses': addresses,
                                            'form': form,
