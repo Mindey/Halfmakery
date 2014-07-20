@@ -297,3 +297,4 @@ def user(request, user_id, template_name='halfmakery/user_tpl.html'):
     return render(request, template_name, {'addresses': addresses,
                                            'form': form,
                                            'form_action': '/user/%s' % user_id})
+

@@ -1,9 +1,10 @@
+{% load coin_tags %}
 <ul>
 {% for comment in comments %}
   {% if comment.id == edit_comment_id %}                                            
   <li><form method="POST" action="{{form_action}}"><table>{{ comment_editing_form }}<input type="submit" value="Save"></table></form>
   {% else %}
-  <li>{{ comment.text }} [ {{ comment.id }} ]
+  <li>{{ comment.text }} [ {% coin comment.satoshis %} <a href="{{form_action}}?comment={{ comment.id }}">edit</a>]
   {% endif %}
 {% endfor %}
 </ul>
