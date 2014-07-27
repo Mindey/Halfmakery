@@ -21,7 +21,7 @@ def get_recipients_and_total(txid, currency='BTC'):
     return (recipients, satoshis)
 
 # Limit of most people's short term memory
-MAX_MILESTONES_COUNT = 8
+MAX_MILESTONES_COUNT = False
 
 def approach_add(request, template_name='halfmakery/approach_tpl.html'):
     """ This view will be used to add
@@ -68,7 +68,7 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
     return render(request, template_name, {'form': form,
                                            'milestones': milestones,
                                            'milestone_form': milestone_form,
-                                           'milestones_limit_reached': milestones.count() >= MAX_MILESTONES_COUNT,
+                                           'milestones_limit_reached': (milestones.count() >= MAX_MILESTONES_COUNT) and (MAX_MILESTONES_COUNT > 0),
                                            'req': request,
                                            'form_action': '/approach/'+str(approach_id),
                                            'comments': comments,
@@ -89,11 +89,11 @@ def approach_action(request, approach_id, action, template_name='halfmakery/appr
     # Create Milestone
     elif action == 'milestone':
         form = forms.MilestoneForm(request.POST or None)
-        if Milestone.objects.all().filter(approach_id=approach_id).count() < MAX_MILESTONES_COUNT:
+        if (Milestone.objects.all().filter(approach_id=approach_id).count() < MAX_MILESTONES_COUNT) or (MAX_MILESTONES_COUNT == False):
             if form.is_valid():
                 milestone = form.save(commit=False)
                 milestone.user = request.user
-                milestone.priority = max([m.priority for m in Milestone.objects.all().filter(approach_id=approach_id)])+1
+                milestone.priority = max([m.priority for m in Milestone.objects.all().filter(approach_id=approach_id)]) + 1
                 milestone.save()
         else:
             """MAX_MILESTONES_COUNT reached."""
