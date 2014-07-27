@@ -25,7 +25,8 @@ urlpatterns = patterns('',
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)/(?P<attempt>[^/]+)/(?P<attempt_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.attempt_action', name='attempt_action'),
     # Address (BTC/LTC/etc.)
     url(r'^user/(?P<user_id>\d+)$', 'halfmakery.views.user', name='user'),
-
+    # Priority (Ajax):
+    url(r'^ajax/list/update/handler/$', 'halfmakery.views.update_priority_order', name='update_priority_order'),
     url(r'^chaining/', include('smart_selects.urls')),
     # url(r'^openshift/', include('openshift.foo.urls')),
 

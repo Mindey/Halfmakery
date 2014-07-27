@@ -10,10 +10,18 @@
 </table>
 <input type="submit" value="Submit">
 </form>
-<ol>
+<ol id="todo">
 {% for milestone in milestones %} 
-<li><a name="{{milestone.id}}" href="{{form_action}}/milestone/{{milestone.id}}">{{ milestone }}</a> [<a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>]
-    <p>{{milestone.details}}</p>
+<li id="todo-{{ milestone.id }}">
+    <div class="todo-content">
+        <div class="todo-header">
+        <a name="{{milestone.id}}" href="{{form_action}}/milestone/{{milestone.id}}">{{ milestone }}</a> [<a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>]
+        </div>
+        <div class="todo-description">
+            <p>{{milestone.details}}</p>
+        </div>
+    </div>
+</li>
 {% endfor %}
 </ol>
 

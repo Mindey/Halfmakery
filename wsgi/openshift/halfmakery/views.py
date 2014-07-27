@@ -48,7 +48,7 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
         form.save()
 
     milestone_form = forms.MilestoneForm(initial={'approach': approach_id})
-    milestones = Milestone.objects.all().filter(approach_id=approach_id).order_by('-priority')
+    milestones = Milestone.objects.all().filter(approach_id=approach_id).order_by('priority')
 
     def comment_proc(request, approach, approach_id):
         edit_comment_id = request.GET.get('comment', False)
@@ -73,7 +73,8 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
                                            'form_action': '/approach/'+str(approach_id),
                                            'comments': comments,
                                            'edit_comment_id': edit_comment_id,
-                                           'comment_editing_form': comment_editing_form})
+                                           'comment_editing_form': comment_editing_form,
+                                           'level_id': approach_id})
 
 def approach_action(request, approach_id, action, template_name='halfmakery/approach_tpl.html'):
     """ This view will be used to delete, and execute actions of its depenents
@@ -92,6 +93,7 @@ def approach_action(request, approach_id, action, template_name='halfmakery/appr
             if form.is_valid():
                 milestone = form.save(commit=False)
                 milestone.user = request.user
+                milestone.priority = max([m.priority for m in Milestone.objects.all().filter(approach_id=approach_id)])+1
                 milestone.save()
         else:
             """MAX_MILESTONES_COUNT reached."""
@@ -172,7 +174,8 @@ def milestone_view(request, approach_id, milestone, milestone_id, template_name=
                                            'form_action': '/approach/%s/milestone/%s' % (approach_id, milestone_id),
                                            'comments': comments,
                                            'edit_comment_id': edit_comment_id,
-                                           'comment_editing_form': comment_editing_form})
+                                           'comment_editing_form': comment_editing_form,
+                                           'level_id': milestone_id})
 
 
 def task_action(request, approach_id, milestone, milestone_id, task, task_id, action, template_name='halfmakery/milestone_tpl.html'):
@@ -235,7 +238,8 @@ def task_view(request, approach_id, milestone, milestone_id, task, task_id, temp
                                            'return_link': '/approach/%s/milestone/%s' % (approach_id, milestone_id),
                                            'comments': comments,
                                            'edit_comment_id': edit_comment_id,
-                                           'comment_editing_form': comment_editing_form})
+                                           'comment_editing_form': comment_editing_form,
+                                           'level_id': task_id})
     
 
 def attempt_action(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id, action, template_name='halfmakery/task_tpl.html'):
@@ -298,3 +302,28 @@ def user(request, user_id, template_name='halfmakery/user_tpl.html'):
                                            'form': form,
                                            'form_action': '/user/%s' % user_id})
 
+def update_priorities(approach_id, priority_map, object='Milestone'):
+    """ Updates priorities for objects. """
+    if object == 'Milestone':
+        for ix, milestone in enumerate(Milestone.objects.all().filter(approach_id=approach_id)):
+            milestone.priority = priority_map[milestone.id]
+            milestone.save()
+        return 'OK'
+    else:
+        return False
+
+def update_priority_order(request):
+    from django.http import Http404
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                level = request.POST['level']
+                order = request.POST['order']
+            except KeyError:
+                raise Http404
+    order = order.split('&')
+    order = [int(o.replace('todo[]=', '')) for o in order]
+    priority_map = dict(zip(order,range(len(order))))
+    update_priorities(level, priority_map)
+    from django.http import HttpResponse
+    return HttpResponse('')
