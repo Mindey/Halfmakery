@@ -6,6 +6,10 @@ class ApproachForm(forms.ModelForm):
     class Meta:
         model = Approach
         exclude = ['user']
+    def __init__(self, *args, **kwargs):
+        super(ApproachForm, self).__init__(*args, **kwargs)
+        from django.utils.safestring import mark_safe
+        self.fields['idea'].label = mark_safe('<span id="swap"><span id="old_idea">Idea</span><span id="new_idea"><a href="/idea/" target="_blank">New Idea</a></span></span>')
 
 class MilestoneForm(forms.ModelForm):
     class Meta:

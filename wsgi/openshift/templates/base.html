@@ -5,7 +5,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
-
+    
+    <!-- Needed for sending Ajax POST'ing to Django's CSFR Token -->
     <script>
     jQuery(document).ajaxSend(function(event, xhr, settings) {
     function getCookie(name) {
@@ -45,6 +46,7 @@
     });
     </script>
 
+    <!-- Needed for Drag-And-Drop sorting of a list. -->
     <script>
     $(function() {
 
@@ -72,6 +74,14 @@
         margin: 0px 2em 3em 0px;
         /*  top right bottom left */
     }
+    </style>
+    
+    <!-- Needed for Swapping the label of idea in the ApproachForm -->
+    <style>
+        span#old_idea { display:inline; }
+        span#swap:hover span#old_idea { display:none; }
+        span#swap span#new_idea { display:none; }
+        span#swap:hover span#new_idea { display:inline; }
     </style>
     </head>
 
