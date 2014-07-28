@@ -6,29 +6,30 @@ from smart_selects.db_fields import ChainedForeignKey
 # Create your models here.
 # User....
 
+class Category(models.Model):
+    name = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __unicode__(self):
+        return unicode(self.name)
+
+class Subcategory(models.Model):
+    name = models.CharField(max_length=20)
+    category = models.ForeignKey('Category')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __unicode__(self):
+        return unicode(self.name)
+
 class Idea(models.Model):
     name = models.CharField(max_length=255)
+    category = models.ForeignKey('Category')
+    subcategory = models.ForeignKey('Subcategory')
     description = models.TextField() #validators=[MaxLengthValidator(4096)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __unicode__(self):
-        return self.name
-
-class Subcategory(models.Model):
-    name = models.CharField(max_length=20)
-    idea = models.ForeignKey(Idea)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    def __unicode__(self):
-        return self.name
-
-class Category(models.Model):
-    name = models.CharField(max_length=20)
-    subcategory = models.ForeignKey('Subcategory')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
 class Approach(models.Model):
     category = models.ForeignKey(Category)

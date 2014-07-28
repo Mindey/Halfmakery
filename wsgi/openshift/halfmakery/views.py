@@ -93,7 +93,11 @@ def approach_action(request, approach_id, action, template_name='halfmakery/appr
             if form.is_valid():
                 milestone = form.save(commit=False)
                 milestone.user = request.user
-                milestone.priority = max([m.priority for m in Milestone.objects.all().filter(approach_id=approach_id)]) + 1
+                priorities = [m.priority for m in Milestone.objects.all().filter(approach_id=approach_id)]
+                if priorities:
+                    milestone.priority = max(priorities) + 1
+                else:
+                    milestone.priority = 0
                 milestone.save()
         else:
             """MAX_MILESTONES_COUNT reached."""

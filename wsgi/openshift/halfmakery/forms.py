@@ -9,8 +9,8 @@ class ApproachForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ApproachForm, self).__init__(*args, **kwargs)
         from django.utils.safestring import mark_safe
-        self.fields['category'].label = mark_safe('<a href="/categories/" target="_blank">Category</a>')
-        self.fields['subcategory'].label = mark_safe('<a href="/subcategories/" target="_blank">Subcategory</a>')
+        self.fields['category'].label = mark_safe('<a href="/categories/" target="_blank">Categories</a>')
+        self.fields['subcategory'].label = mark_safe('<a href="/subcategories/" target="_blank">Subcategories</a>')
         self.fields['idea'].label = mark_safe('<span id="swap"><span id="old_idea">Idea</span><span id="new_idea"><a href="/idea/" target="_blank">Add New</a></span></span>')
 
 class MilestoneForm(forms.ModelForm):
