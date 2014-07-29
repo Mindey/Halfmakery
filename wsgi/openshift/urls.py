@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<task>[^/]+)/(?P<task_id>\d+)/(?P<attempt>[^/]+)/(?P<attempt_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.attempt_action', name='attempt_action'),
     # Address (BTC/LTC/etc.)
     url(r'^user/(?P<user_id>\d+)$', 'halfmakery.views.user', name='user'),
+    url(r'^address/(?P<address_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.address_action', name='address_action'),
     # Priority (Ajax):
     url(r'^ajax/list/update/handler/$', 'halfmakery.views.update_priority_order', name='update_priority_order'),
     # Categories, Subcategories, Ideas

@@ -1,7 +1,7 @@
 Here we'll see the user addresses.
 <ul>
 {% for address in addresses %}
-<li> {{address.currency}}, {{address.address}}
+<li> {{address.currency}}, {{address.address}} [<a href="/address/{{address.id}}/delete">delete</a>]
 {% endfor %}
 </ul>
 

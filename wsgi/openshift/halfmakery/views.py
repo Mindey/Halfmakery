@@ -306,6 +306,18 @@ def user(request, user_id, template_name='halfmakery/user_tpl.html'):
                                            'form': form,
                                            'form_action': '/user/%s' % user_id})
 
+def address_action(request, address_id, action):
+    """ This view will be used to delete, and execute actions on Users/Addresses. """
+
+    # Delete Approach
+    if action == 'delete':
+        address = Address.objects.get(id=address_id)
+        address.delete()
+        return redirect('/user/%s' % request.user.id)
+
+    return redirect('/user/%s' % request.user.id)
+
+
 def update_priorities(approach_id, priority_map, object='Milestone'):
     """ Updates priorities for objects. """
     if object == 'Milestone':
