@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 from halfmakery.models import Approach, Milestone, Task, Attempt, Address, Comment, Category, Subcategory, Idea
+from django.utils.safestring import mark_safe
 
 class ApproachForm(forms.ModelForm):
     class Meta:
@@ -8,10 +9,9 @@ class ApproachForm(forms.ModelForm):
         exclude = ['user']
     def __init__(self, *args, **kwargs):
         super(ApproachForm, self).__init__(*args, **kwargs)
-        from django.utils.safestring import mark_safe
         self.fields['category'].label = mark_safe('<span id="swap"><span id="old_idea">Categories</span><span id="new_idea"><a href="/categories/" target="_blank">Categories</a></span></span>')
         self.fields['subcategory'].label = mark_safe('<span id="swap"><span id="old_idea">Subcategories</span><span id="new_idea"><a href="/subcategories/" target="_blank">Subcategories</a></span></span>')
-        self.fields['idea'].label = mark_safe('<span id="swap"><span id="old_idea">Idea</span><span id="new_idea"><a href="/idea/" target="_blank">Add New</a></span></span>')
+        self.fields['idea'].label = mark_safe('<span id="swap"><span id="old_idea">Idea</span><span id="new_idea"><a href="/ideas/" target="_blank">Add New</a></span></span>')
 
 class MilestoneForm(forms.ModelForm):
     class Meta:
@@ -67,3 +67,11 @@ class CategoryForm(forms.ModelForm):
 class SubcategoryForm(forms.ModelForm):
     class Meta:
         model = Subcategory
+
+class IdeaForm(forms.ModelForm):
+    class Meta:
+        model = Idea
+    def __init__(self, *args, **kwargs):
+        super(IdeaForm, self).__init__(*args, **kwargs)
+        self.fields['category'].label = mark_safe('<span id="swap"><span id="old_idea">Categories</span><span id="new_idea"><a href="/categories/" target="_blank">Categories</a></span></span>')
+        self.fields['subcategory'].label = mark_safe('<span id="swap"><span id="old_idea">Subcategories</span><span id="new_idea"><a href="/subcategories/" target="_blank">Subcategories</a></span></span>')

@@ -24,7 +24,7 @@ class Subcategory(models.Model):
 class Idea(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey('Category')
-    subcategory = models.ForeignKey('Subcategory')
+    subcategory = ChainedForeignKey(Subcategory, chained_field='category', chained_model_field='category', auto_choose=True)
     description = models.TextField() #validators=[MaxLengthValidator(4096)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

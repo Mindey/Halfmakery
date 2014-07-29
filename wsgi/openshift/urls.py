@@ -30,10 +30,11 @@ urlpatterns = patterns('',
     url(r'^ajax/list/update/handler/$', 'halfmakery.views.update_priority_order', name='update_priority_order'),
     # Categories, Subcategories, Ideas
     url(r'^categories/$', 'halfmakery.views.categories_view', name='categories_view'),
-    url(r'^subcategories/$', 'halfmakery.views.subcategories_view', name='subcategories_view'),
-    url(r'^idea/$', 'halfmakery.views.idea_add', name='idea_add'),
     url(r'^category/(?P<category_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.category_action', name='category_action'),
+    url(r'^subcategories/$', 'halfmakery.views.subcategories_view', name='subcategories_view'),
     url(r'^subcategory/(?P<subcategory_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.subcategory_action', name='subcategory_action'),
+    url(r'^ideas/$', 'halfmakery.views.ideas_view', name='ideas_view'),
+    url(r'^idea/(?P<idea_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.idea_action', name='idea_action'),
     # For django-smart-selects
     url(r'^chaining/', include('smart_selects.urls')),
     

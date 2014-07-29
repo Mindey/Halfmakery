@@ -357,7 +357,7 @@ def categories_view(request, template_name='halfmakery/categories_tpl.html'):
 def category_action(request, category_id, action):
     """ This view will be used to delete, and execute actions on categories. """
 
-    # Delete Approach
+    # Delete Category
     if action == 'delete':
         category = Category.objects.get(id=category_id)
         category.delete()
@@ -366,19 +366,18 @@ def category_action(request, category_id, action):
     return redirect('/categories/')
 
 def subcategories_view(request, template_name='halfmakery/subcategories_tpl.html'):
-    categories = Category.objects.all()
     subcategories = Subcategory.objects.all()
     form = forms.SubcategoryForm(request.POST or None)
     if form.is_valid():
         form.save()
-    return render(request, template_name, {'categories': categories,
-                                           'subcategories': subcategories,
+    return render(request, template_name, {'subcategories': subcategories,
+                                           'form_action': '/subcategories/',
                                            'form': form})
 
 def subcategory_action(request, subcategory_id, action):
     """ This view will be used to delete, and execute actions on subcategories. """
 
-    # Delete Approach
+    # Delete Subcategory
     if action == 'delete':
         subcategory = Subcategory.objects.get(id=subcategory_id)
         subcategory.delete()
@@ -386,7 +385,21 @@ def subcategory_action(request, subcategory_id, action):
 
     return redirect('/subcategories/')
 
-def idea_add(request):
-    from django.http import HttpResponse
-    return HttpResponse('')
-    
+def ideas_view(request, template_name='halfmakery/ideas_tpl.html'):
+    ideas = Idea.objects.all().order_by('-id')
+    form = forms.IdeaForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+    return render(request, template_name, {'ideas': ideas,
+                                           'form_action': '/ideas/',
+                                           'form': form })
+
+def idea_action(request, idea_id, action):
+
+    # Delete Idea
+    if action == 'delete':
+        idea = Idea.objects.get(id=idea_id)
+        idea.delete()
+        return redirect('/ideas/')
+
+    return redirect('/ideas/')
