@@ -27,7 +27,15 @@ urlpatterns = patterns('',
     url(r'^user/(?P<user_id>\d+)$', 'halfmakery.views.user', name='user'),
     # Priority (Ajax):
     url(r'^ajax/list/update/handler/$', 'halfmakery.views.update_priority_order', name='update_priority_order'),
+    # Categories, Subcategories, Ideas
+    url(r'^categories/$', 'halfmakery.views.categories_view', name='categories_view'),
+    url(r'^subcategories/$', 'halfmakery.views.subcategories_view', name='subcategories_view'),
+    url(r'^idea/$', 'halfmakery.views.idea_add', name='idea_add'),
+    url(r'^category/(?P<category_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.category_action', name='category_action'),
+    url(r'^subcategory/(?P<subcategory_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.subcategory_action', name='subcategory_action'),
+    # For django-smart-selects
     url(r'^chaining/', include('smart_selects.urls')),
+    
     # url(r'^openshift/', include('openshift.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -2,7 +2,7 @@
 
 from halfmakery import forms
 from django.shortcuts import render, redirect
-from halfmakery.models import Approach, Milestone, Task, Attempt, Address, Comment
+from halfmakery.models import Approach, Milestone, Task, Attempt, Address, Comment, Category, Subcategory, Idea
 from django.contrib.auth.models import User
 
 # Interaction with Blockchains.
@@ -76,7 +76,7 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
                                            'comment_editing_form': comment_editing_form,
                                            'level_id': approach_id})
 
-def approach_action(request, approach_id, action, template_name='halfmakery/approach_tpl.html'):
+def approach_action(request, approach_id, action):
     """ This view will be used to delete, and execute actions of its depenents
         approaches, depending on the POST and GET variables we get."""
 
@@ -182,7 +182,7 @@ def milestone_view(request, approach_id, milestone, milestone_id, template_name=
                                            'level_id': milestone_id})
 
 
-def task_action(request, approach_id, milestone, milestone_id, task, task_id, action, template_name='halfmakery/milestone_tpl.html'):
+def task_action(request, approach_id, milestone, milestone_id, task, task_id, action):
 
     if action == 'delete':
         task = Task.objects.get(id=task_id)
@@ -246,7 +246,7 @@ def task_view(request, approach_id, milestone, milestone_id, task, task_id, temp
                                            'level_id': task_id})
     
 
-def attempt_action(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id, action, template_name='halfmakery/task_tpl.html'):
+def attempt_action(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id, action):
 
     if action == 'comment':
         form = forms.CommentForm(request.POST or None)
@@ -331,3 +331,50 @@ def update_priority_order(request):
     update_priorities(level, priority_map)
     from django.http import HttpResponse
     return HttpResponse('')
+
+
+def categories_view(request, template_name='halfmakery/categories_tpl.html'):
+    categories = Category.objects.all()
+    form = forms.CategoryForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+    return render(request, template_name, {'categories': categories,
+                                           'form_action': '/categories/',
+                                           'form': form})
+
+def category_action(request, category_id, action):
+    """ This view will be used to delete, and execute actions on categories. """
+
+    # Delete Approach
+    if action == 'delete':
+        category = Category.objects.get(id=category_id)
+        category.delete()
+        return redirect('/categories/')
+
+    return redirect('/categories/')
+
+def subcategories_view(request, template_name='halfmakery/subcategories_tpl.html'):
+    categories = Category.objects.all()
+    subcategories = Subcategory.objects.all()
+    form = forms.SubcategoryForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+    return render(request, template_name, {'categories': categories,
+                                           'subcategories': subcategories,
+                                           'form': form})
+
+def subcategory_action(request, subcategory_id, action):
+    """ This view will be used to delete, and execute actions on subcategories. """
+
+    # Delete Approach
+    if action == 'delete':
+        subcategory = Subcategory.objects.get(id=subcategory_id)
+        subcategory.delete()
+        return redirect('/subcategories/')
+
+    return redirect('/subcategories/')
+
+def idea_add(request):
+    from django.http import HttpResponse
+    return HttpResponse('')
+    
