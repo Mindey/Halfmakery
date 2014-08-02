@@ -25,7 +25,8 @@ class Idea(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey('Category')
     subcategory = ChainedForeignKey(Subcategory, chained_field='category', chained_model_field='category', auto_choose=True)
-    description = models.TextField() #validators=[MaxLengthValidator(4096)])
+    description = models.TextField()
+    reference = models.URLField(max_length=4096)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __unicode__(self):
@@ -45,18 +46,6 @@ class Approach(models.Model):
         unique_together = ('category', 'subcategory', 'idea', 'name')
     def __unicode__(self):
         return '%s %s %s' % (self.category, self.subcategory, self.idea)
-
-class Reference(models.Model):
-    idea = models.ForeignKey(Idea)
-    title = models.CharField(max_length=255)
-    summary = models.CharField(max_length=255)
-    url = models.CharField(max_length=4096)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User)
-
-    def __unicode__(self):
-         return self.title
 
 class Milestone(models.Model):
     approach = models.ForeignKey(Approach)
