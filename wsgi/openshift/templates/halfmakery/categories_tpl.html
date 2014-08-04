@@ -1,0 +1,19 @@
+Here we'll see the categories, and the admins will be able to add/edit/remove them.
+<ul>
+{% for category in categories %}
+<li> {{category.id}}, {{category.name}} {% if user.is_staff %}[<a href="/category/{{category.id}}/delete">delete</a>]{% endif %}
+{% endfor %}
+</ul>
+
+{% if user.is_staff %}
+Add New Category:
+<form method="POST" action="{{form_action}}">
+{% csrf_token %}
+<table>
+{{ form }}
+</table>
+<input type="submit" value="Submit">
+</form>
+{% endif %}
+
+

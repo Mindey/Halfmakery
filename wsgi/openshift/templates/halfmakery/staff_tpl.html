@@ -1,0 +1,9 @@
+Here we'll list the staff addresses. Send any amount to any of these addresses, and use that txid to register <a href="/ideas/">new idea</a> classifier.
+<ul>
+{% for address in addresses %}
+  {% if address.user.is_staff %}
+<li> {{address.user.username}}, {{address.currency}}, {{address.address}}
+  {% endif %}
+{% endfor %}
+</ul>
+

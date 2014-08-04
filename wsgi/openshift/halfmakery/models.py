@@ -21,12 +21,24 @@ class Subcategory(models.Model):
     def __unicode__(self):
         return unicode(self.name)
 
+class Currency(models.Model):
+    name = models.CharField(max_length=55)
+    code = models.CharField(max_length=5)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+         return self.code
+
 class Idea(models.Model):
-    name = models.CharField(max_length=255)
     category = models.ForeignKey('Category')
     subcategory = ChainedForeignKey(Subcategory, chained_field='category', chained_model_field='category', auto_choose=True)
+    name = models.CharField(max_length=255)
     description = models.TextField()
     reference = models.URLField(max_length=4096)
+    currency = models.ForeignKey(Currency)
+    txid = models.CharField(max_length=255)
+    user = models.ForeignKey(User)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __unicode__(self):
@@ -95,15 +107,6 @@ class Link(models.Model):
 
     def __unicode__(self):
          return self.title
-
-class Currency(models.Model):
-    name = models.CharField(max_length=55)
-    code = models.CharField(max_length=5)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-         return self.code
 
 class Comment(models.Model):
     approach = models.ForeignKey(Approach)

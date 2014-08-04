@@ -1,0 +1,16 @@
+Here we'll see the tree of categories/subcategories.
+<ul>
+{% for subcategory in subcategories %}
+<li> {{subcategory.id}}, {{subcategory.category.name}}: {{subcategory.name}} {% if user.is_staff %}[<a href="/subcategory/{{subcategory.id}}/delete">delete</a>]{% endif %}
+{% endfor %}
+</ul>
+{% if user.is_staff %}
+Add New Subcategory:
+<form method="POST" action="{{form_action}}">
+{% csrf_token %}
+<table>
+{{ form }}
+</table>
+<input type="submit" value="Submit">
+</form>
+{% endif %}

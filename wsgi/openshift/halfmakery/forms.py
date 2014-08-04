@@ -11,7 +11,7 @@ class ApproachForm(forms.ModelForm):
         super(ApproachForm, self).__init__(*args, **kwargs)
         self.fields['category'].label = mark_safe('<span id="swap"><span id="old_idea">Categories</span><span id="new_idea"><a href="/categories/" target="_blank">Categories</a></span></span>')
         self.fields['subcategory'].label = mark_safe('<span id="swap"><span id="old_idea">Subcategories</span><span id="new_idea"><a href="/subcategories/" target="_blank">Subcategories</a></span></span>')
-        self.fields['idea'].label = mark_safe('<span id="swap"><span id="old_idea">Idea</span><span id="new_idea"><a href="/ideas/" target="_blank">Add New</a></span></span>')
+        self.fields['idea'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Idea</u></span><span id="new_idea"><a href="/ideas/" target="_blank">Add New</a></span></span>')
 
 class MilestoneForm(forms.ModelForm):
     class Meta:
@@ -71,7 +71,10 @@ class SubcategoryForm(forms.ModelForm):
 class IdeaForm(forms.ModelForm):
     class Meta:
         model = Idea
+        exclude = ['user']
     def __init__(self, *args, **kwargs):
         super(IdeaForm, self).__init__(*args, **kwargs)
         self.fields['category'].label = mark_safe('<span id="swap"><span id="old_idea">Categories</span><span id="new_idea"><a href="/categories/" target="_blank">Categories</a></span></span>')
         self.fields['subcategory'].label = mark_safe('<span id="swap"><span id="old_idea">Subcategories</span><span id="new_idea"><a href="/subcategories/" target="_blank">Subcategories</a></span></span>')
+        self.fields['reference'].label = 'Reference URI'
+        self.fields['txid'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Payment</u></span><span id="new_idea"><a href="/staff/" target="_blank">Pay Here</a>')

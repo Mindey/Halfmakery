@@ -389,7 +389,21 @@ def ideas_view(request, template_name='halfmakery/ideas_tpl.html'):
     ideas = Idea.objects.all().order_by('-id')
     form = forms.IdeaForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        idea = form.save(commit=False)
+        idea.user = request.user
+
+        try:
+            recipients, total = get_recipients_and_total(idea.txid)
+            # I think, we should let people use the txid which was previously 
+            # used for commenting, if it was directed to a staff member.
+            __this_txid_was_used_for_idea__ = Idea.objects.all().filter(txid=idea.txid)
+            if not __this_txid_was_used_for_idea__:
+                for user in User.objects.all().filter(is_staff=True):
+                    if user.id in recipients:
+                        idea.save()
+        except:
+            pass
+
     return render(request, template_name, {'ideas': ideas,
                                            'form_action': '/ideas/',
                                            'form': form })
@@ -403,3 +417,7 @@ def idea_action(request, idea_id, action):
         return redirect('/ideas/')
 
     return redirect('/ideas/')
+
+def staff_view(request, template_name='halfmakery/staff_tpl.html'):
+    addresses = Address.objects.all()
+    return render(request, template_name, {'addresses': addresses})

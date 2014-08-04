@@ -35,6 +35,8 @@ urlpatterns = patterns('',
     url(r'^subcategory/(?P<subcategory_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.subcategory_action', name='subcategory_action'),
     url(r'^ideas/$', 'halfmakery.views.ideas_view', name='ideas_view'),
     url(r'^idea/(?P<idea_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.idea_action', name='idea_action'),
+    # Staff
+    url(r'^staff/$', 'halfmakery.views.staff_view', name='staff_view'),
     # For django-smart-selects
     url(r'^chaining/', include('smart_selects.urls')),
     
