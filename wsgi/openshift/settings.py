@@ -190,6 +190,12 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'halfmakery@gmail.com'
+EMAIL_HOST_PASSWORD = '08-2834-2740-1'
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 1025
+# DEFAULT_FROM_EMAIL = 'halfmakery@gmail.com'
+# DEFAULT_TO_EMAIL = 'halfmakery@gmail.com'
