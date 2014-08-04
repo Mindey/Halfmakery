@@ -5,6 +5,7 @@ Here we'll see the user addresses.
 {% endfor %}
 </ul>
 
+{% if user.id == user_id %}
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
 <table>
@@ -12,5 +13,6 @@ Here we'll see the user addresses.
 </table>
 <input type="submit" value="Submit">
 </form>
+{% endif %}
 
 
