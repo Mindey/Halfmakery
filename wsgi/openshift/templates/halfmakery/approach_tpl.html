@@ -2,9 +2,9 @@
 {% block content %}
 <a href="/"><<</a>
 {{ valid }}
+{% if user.id == approach.user.id %}[edit, <a href="{{form_action}}/delete">delete</a>]{% endif %}
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
-[edit, <a href="{{form_action}}/delete">delete</a>]
 <table>
 {{ form }}
 </table>

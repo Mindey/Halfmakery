@@ -66,6 +66,7 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
 
     # / Comments
     return render(request, template_name, {'form': form,
+                                           'approach': approach,
                                            'milestones': milestones,
                                            'milestone_form': milestone_form,
                                            'milestones_limit_reached': (milestones.count() >= MAX_MILESTONES_COUNT) and (MAX_MILESTONES_COUNT > 0),
