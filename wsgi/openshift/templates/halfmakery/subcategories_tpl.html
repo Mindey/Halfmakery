@@ -5,6 +5,7 @@ Here we'll see the tree of categories/subcategories.
 {% endfor %}
 </ul>
 {% if user.is_staff %}
+{% endif %}
 Add New Subcategory:
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
@@ -13,4 +14,3 @@ Add New Subcategory:
 </table>
 <input type="submit" value="Submit">
 </form>
-{% endif %}
