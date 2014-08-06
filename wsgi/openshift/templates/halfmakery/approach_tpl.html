@@ -13,7 +13,7 @@
 </div>
 
 {% if user.id == approach.user.id %}
-  <a name="edit"><form method="POST" action="{{form_action}}">
+  <a name="edit"></a><form method="POST" action="{{form_action}}">
   {% csrf_token %}
   <table>
   {{ form }}
@@ -22,12 +22,13 @@
   </form>
 {% endif %}
 
+{% if user.id == approach.user.id %}<style>li { cursor: all-scroll; }</style>{% endif %}
 <ol id="todo">
   {% for milestone in milestones %} 
   <li id="todo-{{ milestone.id }}">
       <div class="todo-content">
           <div class="todo-header">
-          <a name="{{milestone.id}}" href="{{form_action}}/milestone/{{milestone.id}}">{{ milestone.name }}</a> {% if user.id == approach.user.id %} [<a href="{{form_action}}/milestone/{{milestone.id}}">edit</a>, <a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>] {% endif %}
+          {% if user.id == approach.user.id %}<a name="{{milestone.id}}"><b>{{ milestone.name }}</b></a> [<a href="{{form_action}}/milestone/{{milestone.id}}">edit</a>, <a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>]{% else %}<a name="{{milestone.id}}" href="{{form_action}}/milestone/{{milestone.id}}">{{ milestone.name }}</a>{% endif %}
           </div>
           <div class="todo-description">
               <p>{{milestone.details}}</p>
