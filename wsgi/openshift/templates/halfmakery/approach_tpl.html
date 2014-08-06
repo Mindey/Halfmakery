@@ -24,7 +24,7 @@
 </li>
 {% endfor %}
 </ol>
-<div align="right"><a href="/user/{{approach.user.id}}">{{approach.user.username}}</a></div>
+<div align="right"><a href="/user/{{approach.user.id}}">{{approach.user.username}}</a>, {{approach.created_at|date:"M d Y"}}</div>
 {% if milestones_limit_reached %}
  Maximum number of milestones reached.
 {% else %}
