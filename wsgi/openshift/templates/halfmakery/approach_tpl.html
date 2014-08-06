@@ -5,8 +5,9 @@
 <div align="right">{% if user.id == approach.user.id %}[<a href="#edit">edit</a>, <a href="{{form_action}}/delete">delete</a>]{% endif %}</div>
 
 <div>
-<h1>{{ approach.name }}</h1>
-<h2>{{ approach.goal }}</h2>
+<h1>{{ approach.idea.name }}</h1>
+<h2>The <i>{{ approach.name }}</i> Approach</h2>
+<h3>{{ approach.goal }}</h3>
 <pre>
 {{ approach.sketch }}
 </pre>
