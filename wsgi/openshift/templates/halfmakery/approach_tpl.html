@@ -2,14 +2,25 @@
 {% block content %}
 <a href="/"><<</a>
 {{ valid }}
-{% if user.id == approach.user.id %}[edit, <a href="{{form_action}}/delete">delete</a>]{% endif %}
-<form method="POST" action="{{form_action}}">
+<div align="right">{% if user.id == approach.user.id %}[<a href="#edit">edit</a>, <a href="{{form_action}}/delete">delete</a>]{% endif %}</div>
+
+<div>
+<h1>{{ approach.name }}</h1>
+<h2>{{ approach.goal }}</h2>
+<pre>
+{{ approach.sketch }}
+</pre>
+</div>
+
+{% if user.id == approach.user.id %}
+<a name="edit"><form method="POST" action="{{form_action}}">
 {% csrf_token %}
 <table>
 {{ form }}
 </table>
 <input type="submit" value="Save it!">
 </form>
+{% endif %}
 <ol id="todo">
 {% for milestone in milestones %} 
 <li id="todo-{{ milestone.id }}">
@@ -24,10 +35,11 @@
 </li>
 {% endfor %}
 </ol>
-<div align="right"><a href="/user/{{approach.user.id}}">{{approach.user.username}}</a>, {{approach.created_at|date:"M d Y"}}</div>
 {% if milestones_limit_reached %}
  Maximum number of milestones reached.
 {% else %}
+
+{% if user.id == approach.user.id %}
 Add Milestones to define the approach.
 <form method="POST" action="{{form_action}}/milestone">
 {% csrf_token %}
@@ -36,6 +48,8 @@ Add Milestones to define the approach.
 </table>
 <input type="submit" value="Add it!">
 </form>
+{% endif %}
+<div align="right"><a href="/user/{{approach.user.id}}">{{approach.user.username}}</a>, {{approach.created_at|date:"M d Y"}}</div>
 {% endif %}
 {% endblock %}
 {% block comments %}
