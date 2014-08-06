@@ -5,9 +5,9 @@
   {% if comment.id == edit_comment_id %}                                            
   <form method="POST" action="{{form_action}}"><table>{{ comment_editing_form }}<input type="submit" value="Save"></table></form>
   {% else %}
-  <p>[ <b>{% coin comment.satoshis %}</b> -> {% for recipient in comment.recipients.all %}<a href="/user/{{recipient.id}}">{{recipient.username}}</a>{%endfor%}]
+  <p>
   <br>{{ comment.text }}<br>
-  <span align="right">--<a href="/user/{{comment.user.id}}">{{comment.user.username}}</a></span>, {% if comment.user.id == user.id %}[<a href="{{form_action}}?comment={{ comment.id }}">edit</a>]{% endif %}
+  <span align="right">--<a href="/user/{{comment.user.id}}">{{comment.user.username}}</a></span>, {{comment.created_at|date:"M d Y"}} [{% if comment.user.id == user.id %}<a href="{{form_action}}?comment={{ comment.id }}">edit</a>, {% endif %} <b><a href="https://blockchain.info/tx/{{comment.txid}}" target="_blank">{% coin comment.satoshis %} {{ comment.currency }}</a></b> > {% for recipient in comment.recipients.all %}<a href="/user/{{recipient.id}}">{{recipient.username}}</a>{%endfor%}]
   </p>
   {% endif %}
   </div>

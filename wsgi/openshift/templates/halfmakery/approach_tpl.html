@@ -13,28 +13,30 @@
 </div>
 
 {% if user.id == approach.user.id %}
-<a name="edit"><form method="POST" action="{{form_action}}">
-{% csrf_token %}
-<table>
-{{ form }}
-</table>
-<input type="submit" value="Save it!">
-</form>
+  <a name="edit"><form method="POST" action="{{form_action}}">
+  {% csrf_token %}
+  <table>
+  {{ form }}
+  </table>
+  <input type="submit" value="Save it!">
+  </form>
 {% endif %}
+
 <ol id="todo">
-{% for milestone in milestones %} 
-<li id="todo-{{ milestone.id }}">
-    <div class="todo-content">
-        <div class="todo-header">
-        <a name="{{milestone.id}}" href="{{form_action}}/milestone/{{milestone.id}}">{{ milestone }}</a>{% if user.id == milestone.user.id %} [<a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>]{% endif %}
-        </div>
-        <div class="todo-description">
-            <p>{{milestone.details}}</p>
-        </div>
-    </div>
-</li>
-{% endfor %}
+  {% for milestone in milestones %} 
+  <li id="todo-{{ milestone.id }}">
+      <div class="todo-content">
+          <div class="todo-header">
+          <a name="{{milestone.id}}" href="{{form_action}}/milestone/{{milestone.id}}">{{ milestone.name }}</a> {% if user.id == approach.user.id %} [<a href="{{form_action}}/milestone/{{milestone.id}}">edit</a>, <a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>] {% endif %}
+          </div>
+          <div class="todo-description">
+              <p>{{milestone.details}}</p>
+          </div>
+      </div>
+  </li>
+  {% endfor %}
 </ol>
+
 {% if milestones_limit_reached %}
  Maximum number of milestones reached.
 {% else %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="/"><<</a>
+{{ valid }}
+{% if user.id == approach.user.id %}[edit, <a href="{{form_action}}/delete">delete</a>]{% endif %}
+<form method="POST" action="{{form_action}}">
+{% csrf_token %}
+<table>
+{{ form }}
+</table>
+<input type="submit" value="Save it first!">
+</form>
+<ol id="todo">
+{% for milestone in milestones %}
+<li id="todo-{{ milestone.id }}">
+    <div class="todo-content">
+        <div class="todo-header">
+        <a name="{{milestone.id}}" href="{{form_action}}/milestone/{{milestone.id}}">{{ milestone }}</a> [<a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>]
+        </div>
+        <div class="todo-description">
+            <p>{{milestone.details}}</p>
+        </div>
+    </div>
+</li>
+{% endfor %}
+</ol>
+
+{% if milestones_limit_reached %}
+ Maximum number of milestones reached.
+{% else %}
+Add Milestones to define the approach.
+<form method="POST" action="{{form_action}}/milestone">
+{% csrf_token %}
+<table>
+{{ milestone_form }}
+</table>
+<input type="submit" value="Add it!">
+</form>
+{% endif %}
+{% endblock %}
+{% block comments %}
+hihi, these are approach comments
+{% include 'halfmakery/comments_inl.html' %}
+{% endblock %}

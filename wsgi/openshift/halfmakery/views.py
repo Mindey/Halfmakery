@@ -23,7 +23,7 @@ def get_recipients_and_total(txid, currency='BTC'):
 # Limit of most people's short term memory
 MAX_MILESTONES_COUNT = False
 
-def approach_add(request, template_name='halfmakery/approach_tpl.html'):
+def approach_add(request, template_name='halfmakery/add_approach_tpl.html'):
     """ This view will be used to add
         approaches, depending on the POST and GET variables we get."""
     form = forms.ApproachForm(request.POST or None)
