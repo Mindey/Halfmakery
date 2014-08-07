@@ -75,7 +75,8 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
                                            'comments': comments,
                                            'edit_comment_id': edit_comment_id,
                                            'comment_editing_form': comment_editing_form,
-                                           'level_id': approach_id})
+                                           'level_id': approach_id,
+                                           'info': request.GET.get('info',False)})
 
 def approach_action(request, approach_id, action):
     """ This view will be used to delete, and execute actions of its depenents
@@ -117,8 +118,10 @@ def approach_action(request, approach_id, action):
                     comment.satoshis = total
                     comment.save()
                     comment.recipients = recipients
+                else:
+                    return redirect('/approach/%s?info=used_txid' % approach_id)
             except:
-                pass
+                return redirect('/approach/%s?info=invalid_txid' % approach_id)
 
     return redirect('/approach/%s' % approach_id)
 

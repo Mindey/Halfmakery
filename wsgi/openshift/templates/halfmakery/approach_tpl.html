@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <a href="/"><<</a>
 {{ valid }}
 <div align="right">{% if user.id == approach.user.id %}[<a href="#edit">edit</a>, <a href="{{form_action}}/delete">delete</a>]{% endif %}</div>
@@ -59,4 +60,6 @@ Add Milestones to define the approach.
 {% block comments %}
 hihi, these are approach comments
 {% include 'halfmakery/comments_inl.html' %}
+{% if info == 'invalid_txid' %}<p><font color="red">Invalid txid. Try again.</font></p>{% endif %}
+{% if info == 'used_txid' %}<p><font color="red">Used txid. Try different one, or delete a comment to reuse its txid.</font></p>{% endif %}
 {% endblock %}
