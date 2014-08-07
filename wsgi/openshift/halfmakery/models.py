@@ -113,7 +113,7 @@ class Comment(models.Model):
     milestone = models.ForeignKey(Milestone, blank=True, null=True)
     task = models.ForeignKey(Task, blank=True, null=True)
     attempt = models.ForeignKey(Attempt, blank=True, null=True)
-    currency = models.ForeignKey(Currency)
+    currency = models.ForeignKey(Currency, default=1)
     txid = models.CharField(max_length=255)
     text = models.TextField(validators=[MaxLengthValidator(4096)])
     created_at = models.DateTimeField(auto_now_add=True)
