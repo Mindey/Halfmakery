@@ -77,5 +77,6 @@ class IdeaForm(forms.ModelForm):
         super(IdeaForm, self).__init__(*args, **kwargs)
         self.fields['category'].label = mark_safe('<span id="swap"><span id="old_idea">Categories</span><span id="new_idea"><a href="/categories/" target="_blank">Categories</a></span></span>')
         self.fields['subcategory'].label = mark_safe('<span id="swap"><span id="old_idea">Subcategories</span><span id="new_idea"><a href="/subcategories/" target="_blank">Subcategories</a></span></span>')
+        self.fields['name'].label = 'Idea'
         self.fields['reference'].label = 'Reference URI'
-        self.fields['txid'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Payment</u></span><span id="new_idea"><a href="/staff/" target="_blank">Pay Here</a>')
+        self.fields['txid'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Txid</u></span><span id="new_idea"><a href="/staff/" target="_blank">Pay Here</a>')

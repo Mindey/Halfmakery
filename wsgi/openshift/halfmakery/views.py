@@ -391,7 +391,7 @@ def subcategory_action(request, subcategory_id, action):
     return redirect('/subcategories/')
 
 def ideas_view(request, template_name='halfmakery/ideas_tpl.html'):
-    ideas = Idea.objects.all().order_by('-id')
+    ideas = Idea.objects.all().filter(user=request.user).order_by('-id')
     form = forms.IdeaForm(request.POST or None)
     if form.is_valid():
         idea = form.save(commit=False)
