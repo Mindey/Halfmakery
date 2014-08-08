@@ -9,8 +9,8 @@ class ApproachForm(forms.ModelForm):
         exclude = ['user']
     def __init__(self, *args, **kwargs):
         super(ApproachForm, self).__init__(*args, **kwargs)
-        self.fields['category'].label = mark_safe('<span id="swap"><span id="old_idea">Categories</span><span id="new_idea"><a href="/categories/" target="_blank">Categories</a></span></span>')
-        self.fields['subcategory'].label = mark_safe('<span id="swap"><span id="old_idea">Subcategories</span><span id="new_idea"><a href="/subcategories/" target="_blank">Subcategories</a></span></span>')
+        self.fields['category'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Categories</u></span><span id="new_idea"><a href="/categories/" target="_blank">Categories</a></span></span>')
+        self.fields['subcategory'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Subcategories</u></span><span id="new_idea"><a href="/subcategories/" target="_blank">Subcategories</a></span></span>')
         self.fields['idea'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Idea</u></span><span id="new_idea"><a href="/ideas/" target="_blank">Add New</a></span></span>')
         self.fields['name'].label = 'Approach'
 

@@ -14,7 +14,7 @@ class Category(models.Model):
         return unicode(self.name)
 
 class Subcategory(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=50)
     category = models.ForeignKey('Category')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
