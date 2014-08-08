@@ -6,7 +6,6 @@ Here we'll see the categories, and the admins will be able to add/edit/remove th
 </ul>
 
 {% if user.is_staff %}
-{% endif %}
 Add New Category:
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
@@ -15,5 +14,6 @@ Add New Category:
 </table>
 <input type="submit" value="Submit">
 </form>
+{% endif %}
 
 
