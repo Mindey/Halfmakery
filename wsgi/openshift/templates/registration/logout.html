@@ -3,6 +3,6 @@
 {% load i18n %}
 {% block title %}{% trans "Logged out" %}{% endblock %}
 {% block content %}
-{% trans "Successfully logged out!" %}
+{% trans "Successfully logged out!" %} <a href="/accounts/login/">{% trans "Log in again" %}</a>.
 {% endblock %}
 
