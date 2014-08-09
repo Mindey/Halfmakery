@@ -13,7 +13,7 @@ class ApproachForm(forms.ModelForm):
         self.fields['subcategory'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Subcategories</u></span><span id="new_idea"><a href="/subcategories/" target="_blank">Subcategories</a></span></span>')
         self.fields['idea'].label = mark_safe('<span id="swap"><span id="old_idea"><u>Idea</u></span><span id="new_idea"><a href="/ideas/" target="_blank">Add New</a></span></span>')
         self.fields['name'].label = 'Approach'
-        self.fields['sketch'].label = 'Rationale'
+        self.fields['sketch'].label = 'Situation'
 
 class MilestoneForm(forms.ModelForm):
     class Meta:
