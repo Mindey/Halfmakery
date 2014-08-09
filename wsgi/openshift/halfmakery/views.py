@@ -153,8 +153,20 @@ def milestone_action(request, approach_id, milestone, milestone_id, action, temp
     if action == 'comment':
         form = forms.CommentForm(request.POST or None)
         if form.is_valid():
-            form.save()
-            return redirect('/approach/%s/milestone/%s' % (approach_id, milestone_id))
+            comment = form.save(commit=False)
+            comment.user = request.user
+            try:
+                recipients, total = get_recipients_and_total(comment.txid)
+                __this_txid_is_used__ = Comment.objects.all().filter(txid=comment.txid)
+                if not __this_txid_is_used__:
+                    comment.satoshis = total
+                    comment.save()
+                    comment.recipients = recipients
+                    return redirect('/approach/%s/milestone/%s' % (approach_id, milestone_id))
+                else:
+                    return redirect('/approach/%s/milestone/%s?info=used_txid' % (approach_id, milestone_id))
+            except:
+                return redirect('/approach/%s/milestone/%s?info=invalid_txid' % (approach_id, milestone_id))
 
     return redirect('/approach/%s' % approach_id)
 
@@ -198,7 +210,8 @@ def milestone_view(request, approach_id, milestone, milestone_id, template_name=
                                            'edit_comment_id': edit_comment_id,
                                            'comment_editing_form': comment_editing_form,
                                            'milestone': milestone,
-                                           'level_id': milestone_id})
+                                           'level_id': milestone_id,
+                                           'info': request.GET.get('info',False)})
 
 
 def task_action(request, approach_id, milestone, milestone_id, task, task_id, action):
@@ -215,13 +228,24 @@ def task_action(request, approach_id, milestone, milestone_id, task, task_id, ac
             attempt.save()
         return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))
 
+    # Create Comment
     if action == 'comment':
         form = forms.CommentForm(request.POST or None)
         if form.is_valid():
-            form.save()
-            return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))
-        else:
-            return redirect('/test')
+            comment = form.save(commit=False)
+            comment.user = request.user
+            try:
+                recipients, total = get_recipients_and_total(comment.txid)
+                __this_txid_is_used__ = Comment.objects.all().filter(txid=comment.txid)
+                if not __this_txid_is_used__:
+                    comment.satoshis = total
+                    comment.save()
+                    comment.recipients = recipients
+                    return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))
+                else:
+                    return redirect('/approach/%s/milestone/%s/task/%s?info=used_txid' % (approach_id, milestone_id, task_id))
+            except:
+                return redirect('/approach/%s/milestone/%s/task/%s?info=invalid_txid' % (approach_id, milestone_id, task_id))
     
     return redirect('/approach/%s/milestone/%s' % (approach_id, milestone_id))
 
@@ -265,7 +289,8 @@ def task_view(request, approach_id, milestone, milestone_id, task, task_id, temp
                                            'edit_comment_id': edit_comment_id,
                                            'comment_editing_form': comment_editing_form,
                                            'task': task,
-                                           'level_id': task_id})
+                                           'level_id': task_id,
+                                           'info': request.GET.get('info',False)})
     
 
 def attempt_action(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id, action):
