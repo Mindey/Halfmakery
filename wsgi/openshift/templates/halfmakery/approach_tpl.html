@@ -15,7 +15,7 @@
 </div>
 
 {% if user.id == approach.user.id %}
-  <a name="edit"></a><form method="POST" action="{{form_action}}">
+  <a name="edit"></a><form method="POST" action="{{form_action}}?target=content">
   {% csrf_token %}
   <table>
   {{ form }}

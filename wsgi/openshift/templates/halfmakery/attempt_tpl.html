@@ -7,7 +7,7 @@
 <div align="right">--<a href="/user/{{attempt.user.id}}">{{attempt.user.username}}</a>, {{attempt.updated_at|date:"M d Y"}}</div>
 
 {% if user.id == attempt.user.id %}
-<form method="POST" action="{{form_action}}">
+<form method="POST" action="{{form_action}}?target=content">
 {% csrf_token %}
 <table>
 {{ form }}

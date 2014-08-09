@@ -60,6 +60,8 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
         for comment in comments:
             if comment.id == edit_comment_id:
                 comment_editing_form = forms.CommentForm(instance=comment)
+        if request.GET.get('target',False) == 'content':
+            comment_editing_form = forms.CommentForm(None, initial={'approach': approach})
         return comments, edit_comment_id, comment_editing_form
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach, approach_id)
@@ -176,6 +178,8 @@ def milestone_view(request, approach_id, milestone, milestone_id, template_name=
         for comment in comments:
             if comment.id == edit_comment_id:
                 comment_editing_form = forms.CommentForm(instance=comment)
+        if request.GET.get('target',False) == 'content':
+            comment_editing_form = forms.CommentForm(None, initial={'approach': approach})
         return comments, edit_comment_id, comment_editing_form
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id)
@@ -246,6 +250,8 @@ def task_view(request, approach_id, milestone, milestone_id, task, task_id, temp
         for comment in comments:
             if comment.id == edit_comment_id:
                 comment_editing_form = forms.CommentForm(instance=comment)
+        if request.GET.get('target',False) == 'content':
+            comment_editing_form = forms.CommentForm(None, initial={'approach': approach})
         return comments, edit_comment_id, comment_editing_form
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id, task, task_id)
@@ -299,6 +305,8 @@ def attempt_view(request, approach_id, milestone, milestone_id, task, task_id, a
         for comment in comments:
             if comment.id == edit_comment_id:
                 comment_editing_form = forms.CommentForm(instance=comment)
+        if request.GET.get('target',False) == 'content':
+            comment_editing_form = forms.CommentForm(None, initial={'approach': approach})
         return comments, edit_comment_id, comment_editing_form
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id)
