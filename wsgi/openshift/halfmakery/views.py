@@ -64,10 +64,15 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach, approach_id)
 
+    milestone_list = []
+    for item in milestones:
+        task_count = Task.objects.all().filter(milestone=item).count()
+        milestone_list.append((item, task_count))
+
     # / Comments
     return render(request, template_name, {'form': form,
                                            'approach': approach,
-                                           'milestones': milestones,
+                                           'milestones': milestone_list,
                                            'milestone_form': milestone_form,
                                            'milestones_limit_reached': (milestones.count() >= MAX_MILESTONES_COUNT) and (MAX_MILESTONES_COUNT > 0),
                                            'req': request,
