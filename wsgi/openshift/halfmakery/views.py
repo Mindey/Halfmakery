@@ -180,14 +180,20 @@ def milestone_view(request, approach_id, milestone, milestone_id, template_name=
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id)
     
+    task_list = []
+    for item in tasks:
+        attempt_count = Attempt.objects.all().filter(task=item).count()
+        task_list.append((item, attempt_count))
+
     return render(request, template_name, {'form': form,
-                                           'tasks': tasks,
+                                           'tasks': task_list,
                                            'task_form': task_form,
                                            'return_link': '/approach/%s' % (approach_id,),
                                            'form_action': '/approach/%s/milestone/%s' % (approach_id, milestone_id),
                                            'comments': comments,
                                            'edit_comment_id': edit_comment_id,
                                            'comment_editing_form': comment_editing_form,
+                                           'milestone': milestone,
                                            'level_id': milestone_id})
 
 
@@ -252,6 +258,7 @@ def task_view(request, approach_id, milestone, milestone_id, task, task_id, temp
                                            'comments': comments,
                                            'edit_comment_id': edit_comment_id,
                                            'comment_editing_form': comment_editing_form,
+                                           'task': task,
                                            'level_id': task_id})
     
 
@@ -301,6 +308,7 @@ def attempt_view(request, approach_id, milestone, milestone_id, task, task_id, a
                                            'return_link': '/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id),
                                            'comments': comments,
                                            'edit_comment_id': edit_comment_id,
+                                           'attempt': attempt,
                                            'comment_editing_form': comment_editing_form})
 
 def user(request, user_id, template_name='halfmakery/user_tpl.html'):

@@ -2,6 +2,11 @@
 {% block content %}
 <a href="{{return_link}}"><<</a>
 
+<h1>{{attempt.title}}</h1>
+{{attempt.contents}}
+<div align="right">--<a href="/user/{{attempt.user.id}}">{{attempt.user.username}}</a>, {{attempt.updated_at|date:"M d Y"}}</div>
+
+{% if user.id == attempt.user.id %}
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
 <table>
@@ -10,6 +15,7 @@
 <input type="submit" value="Save">
 <input type="checkbox" name="delete" value="TRUE">Delete this page.<br>
 </form>
+{% endif %}
 {% endblock %}
 {% block comments %}
 hihi, these are attempt comments

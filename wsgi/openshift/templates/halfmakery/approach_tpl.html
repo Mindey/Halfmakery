@@ -30,7 +30,7 @@
   <li id="todo-{{ milestone.id }}">
       <div class="todo-content">
           <div class="todo-header">
-          <a name="{{milestone.id}}"><b>{{ milestone.name }}</b></a> [{% if user.id != approach.user.id %}<a href="{{form_action}}/milestone/{{milestone.id}}">{%endif%}{{count}} tasks{% if user.id != approach.user.id %}</a>{%endif%}{% if user.id == approach.user.id %}, <a href="{{form_action}}/milestone/{{milestone.id}}">edit</a>, <a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>{% endif %}]
+          <a name="{{milestone.id}}"><b>{{ milestone.name }}</b></a> [<a href="{{form_action}}/milestone/{{milestone.id}}">{{count}} tasks</a>{% if user.id == approach.user.id %}, <a href="{{form_action}}/milestone/{{milestone.id}}">edit</a>, <a href="{{form_action}}/milestone/{{milestone.id}}/delete">delete</a>{% endif %}]
           </div>
           <div class="todo-description">
               <p>{{milestone.details}}</p>

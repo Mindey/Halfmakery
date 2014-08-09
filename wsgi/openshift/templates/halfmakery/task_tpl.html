@@ -3,6 +3,11 @@
 <a href="{{return_link}}"><<</a>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
+<h1>{{ task.name }}</h1>
+{{ task.description }}
+<div align="right">--<a href="/user/{{attempt.user.id}}">{{task.user.username}}</a>, {{task.created_at|date:"M d Y"}}</div>
+
+{% if user.id == task.user.id %}
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
 <table>
@@ -10,11 +15,13 @@
 </table>
 <input type="submit" value="Submit">
 </form>
+{% endif %}
 
 <p><b>Documenting attempts</b></p>
 <ul>
 {% for attempt in attempts %}
-<li><a href="{{form_action}}/attempt/{{attempt.id}}">{{ attempt }}</a>
+<li>{{ attempt }} [<a href="{{form_action}}/attempt/{{attempt.id}}">{% if user.id == attempt.user.id %}edit{% else %}view{% endif %}</a>]
+    <div align="right">--<a href="/user/{{attempt.user.id}}">{{attempt.user.username}}</a>, {{attempt.created_at|date:"M d Y"}}</div></li>
 {% endfor %}
 </ul>
 
