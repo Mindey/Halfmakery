@@ -62,6 +62,7 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
                 comment_editing_form = forms.CommentForm(instance=comment)
         if request.GET.get('target',False) == 'content':
             comment_editing_form = forms.CommentForm(None, initial={'approach': approach})
+        comment_editing_form.fields['txid'].widget.attrs['placeholder'] = 'Optional.'
         return comments, edit_comment_id, comment_editing_form
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach, approach_id)
@@ -192,6 +193,7 @@ def milestone_view(request, approach_id, milestone, milestone_id, template_name=
                 comment_editing_form = forms.CommentForm(instance=comment)
         if request.GET.get('target',False) == 'content':
             comment_editing_form = forms.CommentForm(None, initial={'approach': approach})
+        comment_editing_form.fields['txid'].widget.attrs['placeholder'] = 'Optional.'
         return comments, edit_comment_id, comment_editing_form
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id)
@@ -276,6 +278,7 @@ def task_view(request, approach_id, milestone, milestone_id, task, task_id, temp
                 comment_editing_form = forms.CommentForm(instance=comment)
         if request.GET.get('target',False) == 'content':
             comment_editing_form = forms.CommentForm(None, initial={'approach': approach})
+        comment_editing_form.fields['txid'].widget.attrs['placeholder'] = 'Optional.'
         return comments, edit_comment_id, comment_editing_form
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id, task, task_id)
@@ -295,15 +298,24 @@ def task_view(request, approach_id, milestone, milestone_id, task, task_id, temp
 
 def attempt_action(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id, action):
 
+    # Create Comment
     if action == 'comment':
         form = forms.CommentForm(request.POST or None)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = request.user
-            comment.save()
-            return redirect('/approach/%s/milestone/%s/task/%s/attempt/%s' % (approach_id, milestone_id, task_id, attempt_id))
-        else:
-            return redirect('/test')
+            try:
+                recipients, total = get_recipients_and_total(comment.txid)
+                __this_txid_is_used__ = Comment.objects.all().filter(txid=comment.txid)
+                if not __this_txid_is_used__:
+                    comment.satoshis = total
+                    comment.save()
+                    comment.recipients = recipients
+                    return redirect('/approach/%s/milestone/%s/task/%s/attempt/%s' % (approach_id, milestone_id, task_id, attempt_id))
+                else:
+                    return redirect('/approach/%s/milestone/%s/task/%s/attempt/%s?info=used_txid' % (approach_id, milestone_id, task_id, attempt_id))
+            except:
+                return redirect('/approach/%s/milestone/%s/task/%s/attempt/%s?info=invalid_txid' % (approach_id, milestone_id, task_id, attempt_id))
     
     return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))
 
@@ -332,6 +344,7 @@ def attempt_view(request, approach_id, milestone, milestone_id, task, task_id, a
                 comment_editing_form = forms.CommentForm(instance=comment)
         if request.GET.get('target',False) == 'content':
             comment_editing_form = forms.CommentForm(None, initial={'approach': approach})
+        comment_editing_form.fields['txid'].widget.attrs['placeholder'] = 'Optional.'
         return comments, edit_comment_id, comment_editing_form
 
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id, task, task_id, attempt, attempt_id)
@@ -342,7 +355,8 @@ def attempt_view(request, approach_id, milestone, milestone_id, task, task_id, a
                                            'comments': comments,
                                            'edit_comment_id': edit_comment_id,
                                            'attempt': attempt,
-                                           'comment_editing_form': comment_editing_form})
+                                           'comment_editing_form': comment_editing_form,
+                                           'info': request.GET.get('info',False)})
 
 def user(request, user_id, template_name='halfmakery/user_tpl.html'):
     addresses = Address.objects.all().filter(user_id=user_id)
