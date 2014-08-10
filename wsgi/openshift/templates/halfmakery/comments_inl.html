@@ -18,6 +18,7 @@
 Add new comment
   <form method="POST" action="{{form_action}}/comment" name="comment">{% csrf_token %}<table>{{ comment_editing_form }}</table><input type="submit" value="Post it!"></form>
 {% endif %}
+<p>{% if user.is_authenticated %}{% else %}<a href="/accounts/login">Log in</a> to annotate.{% endif %}</p>
 {% if info == 'invalid_txid' %}<p><font color="red">Invalid txid. Try again.</font></p>{% endif %}
 {% if info == 'used_txid' %}<p><font color="red">Used txid. Try different one, or delete a comment to reuse its txid.</font></p>{% endif %}
 
