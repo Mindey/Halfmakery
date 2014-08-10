@@ -129,6 +129,9 @@ def approach_action(request, approach_id, action):
                 else:
                     return redirect('/approach/%s?info=used_txid' % approach_id)
             except:
+                # Optional Txid.
+                comment.satoshis = 0
+                comment.save()
                 return redirect('/approach/%s?info=invalid_txid' % approach_id)
 
     return redirect('/approach/%s' % approach_id)
@@ -167,6 +170,9 @@ def milestone_action(request, approach_id, milestone, milestone_id, action, temp
                 else:
                     return redirect('/approach/%s/milestone/%s?info=used_txid' % (approach_id, milestone_id))
             except:
+                # Optional Txid
+                comment.satoshis = 0
+                comment.save()
                 return redirect('/approach/%s/milestone/%s?info=invalid_txid' % (approach_id, milestone_id))
 
     return redirect('/approach/%s' % approach_id)
@@ -247,6 +253,9 @@ def task_action(request, approach_id, milestone, milestone_id, task, task_id, ac
                 else:
                     return redirect('/approach/%s/milestone/%s/task/%s?info=used_txid' % (approach_id, milestone_id, task_id))
             except:
+                # Optional Txid.
+                comment.satoshis = 0
+                comment.save()
                 return redirect('/approach/%s/milestone/%s/task/%s?info=invalid_txid' % (approach_id, milestone_id, task_id))
     
     return redirect('/approach/%s/milestone/%s' % (approach_id, milestone_id))
@@ -315,6 +324,9 @@ def attempt_action(request, approach_id, milestone, milestone_id, task, task_id,
                 else:
                     return redirect('/approach/%s/milestone/%s/task/%s/attempt/%s?info=used_txid' % (approach_id, milestone_id, task_id, attempt_id))
             except:
+                # Optional Txid.
+                comment.satoshis = 0
+                comment.save()
                 return redirect('/approach/%s/milestone/%s/task/%s/attempt/%s?info=invalid_txid' % (approach_id, milestone_id, task_id, attempt_id))
     
     return redirect('/approach/%s/milestone/%s/task/%s' % (approach_id, milestone_id, task_id))

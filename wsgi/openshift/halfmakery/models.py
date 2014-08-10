@@ -114,7 +114,7 @@ class Comment(models.Model):
     task = models.ForeignKey(Task, blank=True, null=True)
     attempt = models.ForeignKey(Attempt, blank=True, null=True)
     currency = models.ForeignKey(Currency, default=1)
-    txid = models.CharField(max_length=255)
+    txid = models.CharField(max_length=255, blank=True)
     text = models.TextField(validators=[MaxLengthValidator(4096)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
