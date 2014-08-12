@@ -21,8 +21,14 @@
 
 <p><b>Tasks</b></p>
 <ul>
-{% for task, count in tasks %}
-<li>{{ task }} [<a href="{{form_action}}/task/{{task.id}}">{{count}} attempts</a>{% if user.id == task.user.id %}, <a href="{{form_action}}/task/{{task.id}}">edit</a>, <a href="{{form_action}}/task/{{task.id}}/delete">delete</a>{% else %}, by {{ task.user.username }}{% endif %}]
+{% for usr, tasks in user_tasks.items %}
+<li><a href="/user/{{usr.id}}">{{usr.username}}</a>:
+  <ul>
+  {% for task, count in tasks %}
+  <li>{{ task }} [<a href="{{form_action}}/task/{{task.id}}">{{count}} attempts</a>{% if user.id == task.user.id %}, <a href="{{form_action}}/task/{{task.id}}">edit</a>, <a href="{{form_action}}/task/{{task.id}}/delete">delete</a>{% else %}{% endif %}]
+  {% endfor %}
+  </ul>
+</li>
 {% endfor %}
 </ul>
 

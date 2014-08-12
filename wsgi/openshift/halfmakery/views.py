@@ -205,12 +205,19 @@ def milestone_view(request, approach_id, milestone, milestone_id, template_name=
     comments, edit_comment_id, comment_editing_form = comment_proc(request, approach_id, milestone, milestone_id)
     
     task_list = []
+    user_tasks = {}
     for item in tasks:
         attempt_count = Attempt.objects.all().filter(task=item).count()
         task_list.append((item, attempt_count))
+        try:
+            user_tasks[item.user].append((item, attempt_count))
+        except:
+            user_tasks[item.user] = []
+            user_tasks[item.user].append((item, attempt_count))
 
     return render(request, template_name, {'form': form,
                                            'tasks': task_list,
+                                           'user_tasks': user_tasks,
                                            'task_form': task_form,
                                            'return_link': '/approach/%s' % (approach_id,),
                                            'form_action': '/approach/%s/milestone/%s' % (approach_id, milestone_id),
