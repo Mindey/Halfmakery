@@ -70,7 +70,8 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
     milestone_list = []
     for item in milestones:
         task_count = Task.objects.all().filter(milestone=item).count()
-        milestone_list.append((item, task_count))
+        coin_count = float(sum([i.satoshis for i in Comment.objects.all().filter(milestone=item,currency=1)]))/(10**8)
+        milestone_list.append((item, task_count, coin_count))
 
     # / Comments
     return render(request, template_name, {'form': form,
