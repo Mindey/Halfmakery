@@ -3,7 +3,9 @@
 <a href="{{return_link}}"><<</a>
 
 <h1>{{attempt.title}}</h1>
+<font face="Courier New">
 {{attempt.contents}}
+</font>
 <div align="right">--<a href="/user/{{attempt.user.id}}">{{attempt.user.username}}</a>, {{attempt.updated_at|date:"M d Y"}}</div>
 
 {% if user.id == attempt.user.id %}

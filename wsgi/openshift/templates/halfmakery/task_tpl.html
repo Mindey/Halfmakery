@@ -4,7 +4,9 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <h1>{{ task.name }}</h1>
+<font face="Courier New">
 {{ task.description }}
+</font>
 <div align="right">--<a href="/user/{{attempt.user.id}}">{{task.user.username}}</a>, {{task.created_at|date:"M d Y"}}</div>
 
 {% if user.id == task.user.id %}
