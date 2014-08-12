@@ -13,8 +13,8 @@ let's <a href="/admin">admin </a>...
 </ul>
 Approaches:
 <ul>
-{% for i in approaches %}
-<li><a href="/approach/{{ i.id }}">{{ i.name }} Approach</a> [Idea: {{i.idea.name}}]
+{% for approach, coins in approaches %}
+<li>({{ coins }} BTC) <a href="/approach/{{ approach.id }}">{{ approach.name }} Approach</a> [Idea: {{ approach.idea.name }}]
 {% endfor %}
 {% else %}
 </ul>
