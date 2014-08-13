@@ -1,5 +1,5 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'halfmakery/halfmakery_base_tpl.html' %}
+{% block main %}
 <a href="/"><<</a>
 {{ valid }}
 {% if user.id == approach.user.id %}[edit, <a href="{{form_action}}/delete">delete</a>]{% endif %}

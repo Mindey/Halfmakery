@@ -86,11 +86,15 @@
     </head>
 
     <body>
-        <div id="content-comments">
-        <div id="content-main">
-        {% block content %}{% endblock %}
-        </div>
-        {% block comments %}{% endblock %}
-        </div>
+{% if comments != None %}
+    <div id="content-comments">
+    <div id="content-main">
+{% endif %}
+    {% block content %}{% endblock %}
+{% if comments != None %}
+    </div>
+    {% block comments %}{% endblock %}
+    </div>
+{% endif %}
     </body>
 </html>
