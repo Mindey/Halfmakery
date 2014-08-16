@@ -74,6 +74,15 @@
         margin: 0px 2em 3em 0px;
         /*  top right bottom left */
     }
+    section.sidebar {
+      width: 200px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background-color: pink;
+    }
+
+    section.main { margin-left: 200px; }
     </style>
     
     <!-- Needed for Swapping the label of idea in the ApproachForm -->
@@ -86,6 +95,11 @@
     </head>
 
     <body>
+
+<section class="sidebar">
+ Sidebar
+</section>
+<section class="main">
 {% if comments != None %}
     <div id="content-comments">
     <div id="content-main">
@@ -96,5 +110,6 @@
     {% block comments %}{% endblock %}
     </div>
 {% endif %}
+</section>
     </body>
 </html>
