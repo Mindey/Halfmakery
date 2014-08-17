@@ -7,7 +7,7 @@
   {% else %}
   <p>
   <br>{{ comment.text }}<br>
-  <span align="right">--<a href="/user/{{comment.user.id}}">{{comment.user.username}}</a></span>, {{comment.created_at|date:"M d Y"}} [{% if comment.user.id == user.id %}<a href="{{form_action}}?comment={{ comment.id }}">edit</a>, {% endif %} <b><a href="https://blockchain.info/tx/{{comment.txid}}" target="_blank">{% coin comment.satoshis %} {{ comment.currency }}</a></b> > {% for recipient in comment.recipients.all %}<a href="/user/{{recipient.id}}">{{recipient.username}}</a>{%endfor%}]
+  <span align="right">--<a href="/user/{{comment.user.id}}">{{comment.user.username}}</a></span>, {{comment.created_at|date:"M d Y"}} [{% if comment.user.id == user.id %}<a href="{{form_action}}?comment={{ comment.id }}">edit</a>, {% endif %} <b><a href="https://blockchain.info/tx/{{comment.txid}}" target="_blank">{% coin comment.satoshis %} {{ comment.currency }}</a></b>{% if comment.recipients.all %} > {% for recipient in comment.recipients.all %}<a href="/user/{{recipient.id}}">{{recipient.username}}</a>{%endfor%}{% endif %} ]
   </p>
   {% endif %}
   </div>
