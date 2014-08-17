@@ -86,7 +86,7 @@ def approach_view(request, approach_id, template_name='halfmakery/approach_tpl.h
                                            'comment_editing_form': comment_editing_form,
                                            'level_id': approach_id,
                                            'info': request.GET.get('info',False)})
-
+    
 def approach_action(request, approach_id, action):
     """ This view will be used to delete, and execute actions of its depenents
         approaches, depending on the POST and GET variables we get."""
