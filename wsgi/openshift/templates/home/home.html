@@ -3,10 +3,11 @@
 {% include 'home/sidebar_inc.html' %}
 {% endblock %}
 {% block content %}
+<div align="left">Plans:</div>
 
 <ul>
 {% for approach, coins in approaches %}
-<li>({{ coins }} BTC) <a href="/approach/{{ approach.id }}">{{ approach.name }} Approach</a> [Idea: {{ approach.idea.name }}]
+<li>({{ coins }} BTC) <a href="/approach/{{ approach.id }}"> {{ approach.name }}</a> [Idea: {{ approach.idea.name }}]
 {% endfor %}
 </ul>
 
