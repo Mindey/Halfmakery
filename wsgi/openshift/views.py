@@ -14,3 +14,6 @@ def home(request):
 
 def about(request):
     return render_to_response('home/about.html',{},context_instance=RequestContext(request))
+
+def news(request):
+    return render_to_response('home/news.html',{},context_instance=RequestContext(request))
