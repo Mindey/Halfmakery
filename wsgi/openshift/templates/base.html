@@ -67,6 +67,16 @@
     </script>
 
     <style>
+
+    header {
+      background-color: #FFF9E5;
+      margin-left: 200px;
+      text-align: center;
+      vertical-align:middle; 
+      position: static;
+      left: 200px;
+    }
+
     #content-main {
         display: block;
         float: left;
@@ -74,15 +84,24 @@
         margin: 0px 2em 3em 0px;
         /*  top right bottom left */
     }
+
     section.sidebar {
+      background-color: #FFF9E5;
       width: 200px;
       position: absolute;
       top: 0;
       bottom: 0;
-      background-color: white;
     }
 
     section.main { margin-left: 200px; }
+
+    footer {
+      background-color: #FFF9E5;
+      margin-left: 200px;
+      text-align: center;
+      vertical-align:middle; 
+      position: static;
+    }
     </style>
     
     <!-- Needed for Swapping the label of idea in the ApproachForm -->
@@ -97,9 +116,17 @@
     <body>
 
 <section class="sidebar">
+<center>[SIDEBAR]</center>
 {% block sidebar %}{% endblock %}
 </section>
+
+<header>
+<center>[HEADER]</center>
+{% block header %}{% endblock %}
+</header>
+
 <section class="main">
+<center>[MAIN]</center>
 {% if comments != None %}
     <div id="content-comments">
     <div id="content-main">
@@ -111,5 +138,11 @@
     </div>
 {% endif %}
 </section>
+
+<footer>
+<center>[FOOTER]</center>
+{% block footer %}{% endblock %}
+</footer>
+
     </body>
 </html>

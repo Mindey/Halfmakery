@@ -1,31 +1,16 @@
 {% extends "base.html" %}
 {% block sidebar %}
-{% include 'home/sidebar_tpl.html' %}
-<p>Part of sidebar added to from /home/home.html :)</p>
+{% include 'home/sidebar_inc.html' %}
 {% endblock %}
 {% block content %}
-<b>
-Halfmakery!
-<b>
-<br />
 
 {% if user.is_authenticated %}
-{% if user.is_staff %}
-let's <a href="/admin">admin </a>...
-{% endif %}
-<p><a href="/user/{{ user.id }}">{{ user.username }}</a> [<a href="/accounts/logout/">logout</a>]</p>
-<ul>
-<li> <a href="/approach/">Add/Edit Approach</a>
-</ul>
-Approaches:
+
 <ul>
 {% for approach, coins in approaches %}
 <li>({{ coins }} BTC) <a href="/approach/{{ approach.id }}">{{ approach.name }} Approach</a> [Idea: {{ approach.idea.name }}]
 {% endfor %}
 {% else %}
 </ul>
-<p>
-[<a href="/accounts/login/">login</a>]
-</p>
 {% endif %}
 {% endblock %}

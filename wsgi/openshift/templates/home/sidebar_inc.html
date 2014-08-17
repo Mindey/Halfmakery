@@ -1,0 +1,18 @@
+<center><img src="/media/hm.gif"></center>
+
+{% if user.is_staff %}
+<p><strong>admin:</strong> <a href="/admin">django</a></p>
+{% endif %}
+
+<p><strong>plan:</strong> <a href="/approach/">add</a>, search, overview, recent, by name, random</p>
+<p><strong>meta:</strong> news, help, about, links, report a problem</p>
+<p><strong>account:</strong> {% if user.is_authenticated %}
+<p><a href="/user/{{ user.id }}">{{ user.username }}</a> [<a href="/accounts/logout/">logout</a>]</p>
+{% else %}
+browse anonymousely, or get an account and write.
+<div>
+<p>
+<a href="/accounts/register/">register</a>, <a href="/accounts/login/">login</a>
+</p>
+</div>
+{% endif %}
