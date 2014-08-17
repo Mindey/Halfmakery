@@ -28,7 +28,7 @@
 <li><a href="/user/{{usr.id}}">{{usr.username}}</a>:
   <ul>
   {% for task, count in tasks %}
-  <li{% if count > 0 %} style="color:green;"{% endif %}>{{ task }} [<a href="{{form_action}}/task/{{task.id}}">{{count}} attempts</a>{% if user.id == task.user.id %}, <a href="{{form_action}}/task/{{task.id}}">edit</a>, <a href="{{form_action}}/task/{{task.id}}/delete">delete</a>{% else %}{% endif %}]
+  <li{% if count > 0 %} style="color:green;"{% endif %}>{{ task }} [{% if count > 0 %}<b>{% endif %}<a href="{{form_action}}/task/{{task.id}}">{{count}} attempts</a>{% if count > 0 %}</b>{% endif %}{% if user.id == task.user.id %}, <a href="{{form_action}}/task/{{task.id}}">edit</a>, <a href="{{form_action}}/task/{{task.id}}/delete">delete</a>{% else %}{% endif %}]
   {% endfor %}
   </ul>
 </li>
