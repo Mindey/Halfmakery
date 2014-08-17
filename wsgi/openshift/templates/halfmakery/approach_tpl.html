@@ -25,7 +25,7 @@
 {% endif %}
 
 {% if user.id == approach.user.id %}<style>li { cursor: all-scroll; }</style>{% endif %}
-<ol id="todo">
+<ol{% if user.id == approach.user.id %} id="todo"{% endif %}>
   {% for milestone, count, coins in milestones %} 
   <li id="todo-{{ milestone.id }}">
       <div class="todo-content">
