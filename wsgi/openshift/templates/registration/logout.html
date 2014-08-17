@@ -1,8 +1,12 @@
 <meta http-equiv="refresh" content="10; URL=/">
 {% extends "registration/registration_base.html" %}
+{% block sidebar %}
+{% include 'home/sidebar_inc.html' %}
+{% endblock %}
 {% load i18n %}
 {% block title %}{% trans "Logged out" %}{% endblock %}
 {% block content %}
-{% trans "Successfully logged out!" %} <a href="/accounts/login/">{% trans "Log in again" %}</a>.
+<p>{% trans "Successfully logged out!" %}</p>
+<p>{% trans "This page is set to redirect to the main page after 10 seconds." %}</p>
 {% endblock %}
 

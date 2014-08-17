@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+{% block sidebar %}
+{% include 'home/sidebar_inc.html' %}
+{% endblock %}
+{% block content %}
 Here we'll see the tree of categories/subcategories.
 <ul>
 {% for subcategory in subcategories %}
@@ -14,3 +19,4 @@ Add New Subcategory:
 <input type="submit" value="Submit">
 </form>
 {% endif %}
+{% endblock %}

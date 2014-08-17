@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+{% block sidebar %}
+{% include 'home/sidebar_inc.html' %}
+{% endblock %}
+{% block content %}
 <a href="javascript:history.back()"><<</a>
 <p></p>
 <div></div>
@@ -20,3 +25,4 @@ Here we'll see the user addresses.
 
 
 Use them to support the user.
+{% endblock %}

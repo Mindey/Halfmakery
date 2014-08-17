@@ -13,4 +13,4 @@ def home(request):
     return render_to_response('home/home.html',{'approaches': approach_list},context_instance=RequestContext(request))
 
 def about(request):
-    return render_to_response('home/about.html')
+    return render_to_response('home/about.html',{},context_instance=RequestContext(request))

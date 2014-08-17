@@ -1,14 +1,8 @@
-<!-- to be moved to base template -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
-<!-- Needed for Swapping the label of idea in the ApproachForm -->
-<style>
-    span#old_idea { display:inline; }
-    span#swap:hover span#old_idea { display:none; }
-    span#swap span#new_idea { display:none; }
-    span#swap:hover span#new_idea { display:inline; }
-</style>
+{% extends "base.html" %}
+{% block sidebar %}
+{% include 'home/sidebar_inc.html' %}
+{% endblock %}
+{% block content %}
 Add New Idea:
 <form method="POST" action="{{form_action}}">
 {% csrf_token %}
@@ -24,3 +18,4 @@ Add New Idea:
 <li> {{idea.id}}, {{idea.category.name}}:{{idea.subcategory.name}}:{{idea.name}} {% if idea.user.id == user.id %} [<a href="/idea/{{idea.id}}/delete">delete</a>] {% endif %}
 {% endfor %}
 </ul>
+{% endblock %}
