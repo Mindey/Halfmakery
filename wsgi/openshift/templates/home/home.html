@@ -4,13 +4,13 @@
 {% endblock %}
 {% block content %}
 
-
-{% if user.is_authenticated %}
 <ul>
 {% for approach, coins in approaches %}
 <li>({{ coins }} BTC) <a href="/approach/{{ approach.id }}">{{ approach.name }} Approach</a> [Idea: {{ approach.idea.name }}]
 {% endfor %}
 </ul>
+
+{% if user.is_authenticated %}
 {% else %}
 {% endif %}
 {% endblock %}
