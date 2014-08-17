@@ -7,7 +7,7 @@
 
 <ul>
 {% for approach, coins in approaches %}
-<li>({{ coins }} BTC) {{ approach.idea.name }} <b>with</b> <a href="/approach/{{ approach.id }}">{{ approach.name }}</a> plan.
+<li>({{ coins }} BTC) <a href="/approach/{{ approach.id }}">{{ approach.name }}</a> plan for <i>{{ approach.idea.name }}</i> idea.
 {% endfor %}
 </ul>
 
