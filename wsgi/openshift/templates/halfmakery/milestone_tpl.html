@@ -7,7 +7,7 @@
 <font face="Courier New">
 {{milestone.details}}
 </font>
-<div align="right">--<a href="/user/{{attempt.user.id}}">{{milestone.user.username}}</a>, {{milestone.created_at|date:"M d Y"}}</div>
+<div align="right">--<a href="/user/{{milestone.user.id}}">{{milestone.user.username}}</a>, {{milestone.created_at|date:"M d Y"}}</div>
 
 {% if user.id == milestone.user.id %}
 <form method="POST" action="{{form_action}}?target=content">

@@ -7,7 +7,7 @@
 <font face="Courier New">
 {{ task.description }}
 </font>
-<div align="right">--<a href="/user/{{attempt.user.id}}">{{task.user.username}}</a>, {{task.created_at|date:"M d Y"}}</div>
+<div align="right">--<a href="/user/{{task.user.id}}">{{task.user.username}}</a>, {{task.created_at|date:"M d Y"}}</div>
 
 {% if user.id == task.user.id %}
 <form method="POST" action="{{form_action}}?target=content">
