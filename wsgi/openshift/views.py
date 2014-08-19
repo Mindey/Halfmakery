@@ -5,7 +5,7 @@ from django.template import RequestContext
 
 def home(request):
     from halfmakery.models import Approach, Comment
-    approaches = Approach.objects.all()
+    approaches = Approach.objects.all().order_by('-updated_at')
     approach_list = []
     for item in approaches:
         coin_count = float(sum([i.satoshis for i in Comment.objects.all().filter(approach=item,currency=1)]))/(10**8)
