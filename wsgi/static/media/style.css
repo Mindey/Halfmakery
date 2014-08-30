@@ -72,6 +72,9 @@
 		color: #000;
 	
 	}
+  a:visited {
+    color: #002277;
+  }
 	table td{
 	
 		vertical-align:top;
