@@ -4,6 +4,10 @@
 {% endblock %}
 {% block content %}
 
+<div>
+	<h1>recent 3</h1>
+	<span>for major categories. Plans in <b>bold</b> have been created this week.</span>
+</div>
 <ul>
 {% for approach, coins in approaches %}
 <li>({{ coins }} BTC) <a href="/approach/{{ approach.id }}">{{ approach.name }}</a> plan for <i><a href="{{ approach.idea.reference }}" style="color:black">{{ approach.idea.name }}</a></span></i> idea.

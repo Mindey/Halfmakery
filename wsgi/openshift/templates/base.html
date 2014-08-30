@@ -4,7 +4,9 @@
         <title>{% block title %}{% endblock %}</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="/media/style.css" media="screen"/>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     
     <!-- Needed for sending Ajax POST'ing to Django's CSFR Token -->
     <script>
@@ -65,88 +67,60 @@
     });
 
     </script>
-
-    <style>
-
-    header {
-      background-color: #FFF9E5;
-      margin-left: 200px;
-      text-align: center;
-      vertical-align:middle; 
-      position: static;
-      left: 200px;
-    }
-
-    #content-main {
-        display: block;
-        float: left;
-        width: 30em;
-        margin: 0px 2em 3em 0px;
-        /*  top right bottom left */
-    }
-
-    #content-comments {
-        overflow: auto;
-    }
-
-    section.sidebar {
-      background-color: #FFF9E5;
-      width: 200px;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-    }
-
-    section.main { margin-left: 200px; }
-
-    footer {
-      background-color: #FFF9E5;
-      margin-left: 200px;
-      text-align: center;
-      vertical-align:middle; 
-      position: static;
-    }
-    </style>
-    
-    <!-- Needed for Swapping the label of idea in the ApproachForm -->
-    <style>
-        span#old_idea { display:inline; }
-        span#swap:hover span#old_idea { display:none; }
-        span#swap span#new_idea { display:none; }
-        span#swap:hover span#new_idea { display:inline; }
-    </style>
+   
     </head>
 
-    <body>
+<body>
+		
+		<div class="container">			
+		<table>
+			<tbody>
+			<tr>
 
-<section class="sidebar">
-<center>[-SIDEBAR-]</center>
-{% block sidebar %}{% endblock %}
-</section>
+			  <td>
+				<div class="block-left">
+					<div class="sidebar">
+						<!--<center>[SIDEBAR]</center>-->
+						<div class="block-sidebar">{% block sidebar %}{% endblock %}</div>
+					</div>
+				</div>
+			  </td>
 
-<header>
-<center>[-HEADER-]</center>
-{% block header %}{% endblock %}
-</header>
+			  <td>
+					<div class="block-right">
+						
+							<div class="header">
+								<div class="comment">--[HEADER]--</div>
+								{% block header %}{% endblock %}
+							</div>
 
-<section class="main">
-<center>[-MAIN-]</center>
-{% if comments != None %}
-    <div id="content-comments">
-    <div id="content-main">
-{% endif %}
-    {% block content %}{% endblock %}
-{% if comments != None %}
-    </div>
-    {% block comments %}{% endblock %}
-    </div>
-{% endif %}
-</section>
+							<div class="main">
+								<div class="comment">--[MAIN]--</div>
+								{% if comments != None %}
+								<div id="content-comments">
+									<div id="content-main">
+										{% endif %}
+											{% block content %}{% endblock %}
+										{% if comments != None %}
+									</div>
+									<!--<div id="all-coments">-->{% block comments %}{% endblock %}<!--</div>-->
+								</div>
+								{% endif %}
+							</div><!--main-->
+							
+							<footer>
+								<div class="comment" style="margin-bottom:20px;">--[FOOTER]--</div>
+								{% block footer %}{% endblock %}
+							</footer>
+						
+					</div><!--block-right-->
+			  </td>
+		    </tr>
+		   </tbody>
+		</table>
 
-<footer>
-<center>[-FOOTER-]</center>
-{% block footer %}{% endblock %}
-</footer>
+	  </div><!--container-->
+
 
     </body>
 </html>
