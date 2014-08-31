@@ -65,6 +65,8 @@
   h2 {
 	margin-top: 5px;
 	padding-top: 0;
+  font-weight: normal;
+  font-size: 1.5em;
 	}
 	a { 
 		color: #000;

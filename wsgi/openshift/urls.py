@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     # Approach
     url(r'^approach/$', 'halfmakery.views.approach_add', name='approach_add'),
     url(r'^approach/(?P<approach_id>\d+)$', 'halfmakery.views.approach_view', name='approach_view'),
+    url(r'^plan/(?P<approach_id>\d+)$', 'halfmakery.views.approach_view', name='approach_view'),
     url(r'^approach/(?P<approach_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.approach_action', name='approach_action'),
     # Milestone
     url(r'^approach/(?P<approach_id>\d+)/(?P<milestone>[^/]+)/(?P<milestone_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.milestone_action', name='milestone_action'),
