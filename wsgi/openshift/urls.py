@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('registration.backends.default.urls')),
     # Approach
     url(r'^approach/$', 'halfmakery.views.approach_add', name='approach_add'),
+    url(r'^plan/$', 'halfmakery.views.approach_add', name='approach_add'),
     url(r'^approach/(?P<approach_id>\d+)$', 'halfmakery.views.approach_view', name='approach_view'),
     url(r'^plan/(?P<approach_id>\d+)$', 'halfmakery.views.approach_view', name='approach_view'),
     url(r'^approach/(?P<approach_id>\d+)/(?P<action>[^/]+)$', 'halfmakery.views.approach_action', name='approach_action'),
