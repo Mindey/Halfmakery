@@ -17,7 +17,7 @@
 {% if not edit_comment_id %}
 <br>
 <div class="comment-form">
-  <form method="POST" action="{{form_action}}/comment" name="comment">{% csrf_token %}<table>{{ comment_editing_form }}</table><input type="submit" value="Post it!"></form>
+  <form method="POST" action="{{form_action}}/comment" name="comment">{% csrf_token %}<table>{{ comment_editing_form }}<tr><td><input type="submit" value="Post it!"></form></td></tr></table>
 </div>
 {% endif %}
 <p>{% if user.is_authenticated %}{% else %}<a href="/accounts/login">Log in</a> to annotate.{% endif %}</p>

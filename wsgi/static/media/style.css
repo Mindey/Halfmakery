@@ -62,23 +62,18 @@
 		color: #000;
 		text-decoration: none;
 	}
-	
-    h2 {
-		margin-top: 5px;
-		padding-top: 0;
+  h2 {
+	margin-top: 5px;
+	padding-top: 0;
 	}
 	a { 
-		
 		color: #000;
-	
 	}
   a:visited {
     color: #002277;
   }
 	table td{
-	
 		vertical-align:top;
-	
 	}
 		
 	#all-coments {
@@ -153,6 +148,7 @@
 	}
 	#content-comments span div {
 		padding-left: 80px;
+    min-width: 600px;
 	}
 	.comment-form{
 		padding-left: 80px;
